@@ -20,7 +20,7 @@ export interface ApplicationPositionModel {
 export interface ApplicationCertificatePublicModel {
   // address: string
   // title: string
-  uuid: string;
+  uuid: string
 }
 
 export interface ApplicationCertificatePrivateModel extends ApplicationCertificatePublicModel {
@@ -31,7 +31,7 @@ export interface ApplicationCertificatePrivateModel extends ApplicationCertifica
 export interface ApplicationRegisterModel {
   color: string
   alias: string
-  certificates: ApplicationCertificatePublicModel[];
+  certificates: ApplicationCertificatePublicModel[]
 }
 
 export interface ApplicationPrivateModel extends ApplicationRegisterModel {
