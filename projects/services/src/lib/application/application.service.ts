@@ -132,7 +132,7 @@ export class ApplicationService {
         })
     ).subscribe((data: GeoContractUpdatedModel[]) => {
       const contract = data[0]
-      this.logService.apply(`Send <b<public</b> data: {alias: ${this.alias}, certificate: ${JSON.stringify(this.certificates[0])}}`)
+      this.logService.apply(`Send <b>public</b> data to segment <b>${contract.address}</b>: {user-alias: ${this.alias}, certificate: ${JSON.stringify(this.certificates[0])}}`)
 
       this.geoService.registerToContract(contract.address, {
         color: this.color,
