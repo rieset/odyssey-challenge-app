@@ -216,7 +216,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "dapp:build"
+            "browserTarget": "dapp:build",
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {

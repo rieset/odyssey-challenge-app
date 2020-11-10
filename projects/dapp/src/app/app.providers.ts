@@ -2,13 +2,18 @@ import { InjectionToken, Provider, Type } from '@angular/core'
 import { environment } from '../environments/environment'
 
 export interface AppConstantsInterface {
-  routes: {[s: string]: string | string[]}
+  routes: {[s: string]: string | string[]},
+  geo: {
+    latRange: number[]
+    lngRange: number[]
+  }
 }
 
 export interface AppApiInterface {
   nodes: string
   rest: string
   contractAddress: string
+  geo: string
 }
 
 export const APP_CONSTANTS = new InjectionToken<Type<AppConstantsInterface>>('Application constants')
@@ -31,7 +36,8 @@ export function provideAppConstants (): Provider[] {
     {
       provide: APP_CONSTANTS,
       useValue: {
-        routes: environment.routing
+        routes: environment.routing,
+        geo: environment.geo
       }
     }
   ]
