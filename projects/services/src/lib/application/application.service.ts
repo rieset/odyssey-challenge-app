@@ -156,14 +156,27 @@ export class ApplicationService {
   tick () {
     // Chance 5% // Change transport
     if (Math.random() < .05) {
+      const variants = ApplicationTransportVariants[Math.round(Math.random() * 5)]
+      if (variants === 'stay') {
+        this.direction$.next({x: 0, y: 0})
+      }
+
       this.movement$.next(ApplicationTransportVariants[Math.round(Math.random() * 5)])
     }
 
     // Chance 10% // Change direction
     if (Math.random() < .1) {
+      let xDirection = this.getDirectionOnAxis()
+      let yDirection = this.getDirectionOnAxis()
+
+      while (xDirection + yDirection === 0 && xDirection - yDirection === 0) {
+        xDirection = this.getDirectionOnAxis()
+        yDirection = this.getDirectionOnAxis()
+      }
+
       this.direction$.next({
-        x: this.getDirectionOnAxis(),
-        y: this.getDirectionOnAxis()
+        x: xDirection,
+        y: yDirection
       })
     }
 
