@@ -1,0 +1,28 @@
+@import 'variables';
+
+.footer {
+  background: #000;
+  border-top: 1px solid #f00;
+  color: #fff;
+  font-family: monospace;
+  padding: $padding;
+
+  &__log {
+    align-items: center;
+    display: flex;
+
+    &-time {
+      padding-right: $padding;
+      white-space: nowrap;
+    }
+
+    &-message {
+      flex: 1 1 auto;
+    }
+
+    &-type {
+      color: #7fffd4;
+      padding-left: $padding;
+    }
+  }
+}

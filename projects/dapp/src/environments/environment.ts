@@ -13,7 +13,8 @@ export const environment = {
     // contractAddress: '3MvqnYLwBErxGtKzeEjgWgr2RXgniokicR2'
     contractAddress: '3N1eyWNffhxPCmYBWBdnWbhmAVAVjkTEqY5',
 
-    geo: 'http://localhost:3000'
+    geo: 'http://localhost:3000',
+    googleMaps: 'AIzaSyACN_pRwBJA4Vqb3PMOCXTJCXnUtbeTXgU'
   },
 
   geo: {

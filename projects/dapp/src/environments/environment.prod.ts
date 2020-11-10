@@ -5,7 +5,8 @@ export const environment = {
     nodes: 'https://nodes-testnet.wavesnodes.com',
     rest: 'https://nodes-testnet.wavesnodes.com',
     contractAddress: '3N1eyWNffhxPCmYBWBdnWbhmAVAVjkTEqY5',
-    geo: 'https://waves-challenge-backend.herokuapp.com/'
+    geo: 'https://waves-challenge-backend.herokuapp.com/',
+    googleMaps: 'AIzaSyACN_pRwBJA4Vqb3PMOCXTJCXnUtbeTXgU'
   },
 
   geo: {

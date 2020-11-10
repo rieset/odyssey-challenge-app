@@ -1,3 +1,9 @@
-<!--<div class="container">-->
-<!--    <p>footer works!</p>-->
-<!--</div>-->
+<div class="footer">
+
+    <div class="footer__log" *ngIf="lastLogMessage$ | async as message"
+    >
+        <div class="footer__log-time">{{ message.datetime | timeLeft }}</div>
+        <div class="footer__log-message" [innerHTML]="message.message | safeHtml"></div>
+        <div class="footer__log-type">{{ message.type }}</div>
+    </div>
+</div>

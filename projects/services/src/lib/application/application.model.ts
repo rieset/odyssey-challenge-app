@@ -31,7 +31,7 @@ export interface ApplicationCertificatePrivateModel extends ApplicationCertifica
 export interface ApplicationRegisterModel {
   color: string
   alias: string
-  certificates: ApplicationCertificatePublicModel[]
+  certificate: ApplicationCertificatePublicModel
 }
 
 export interface ApplicationPrivateModel extends ApplicationRegisterModel {

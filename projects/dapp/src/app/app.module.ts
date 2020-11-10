@@ -20,6 +20,8 @@ import { NgProgressHttpModule } from 'ngx-progressbar/http'
 import { provideApi, provideAppConstants } from './app.providers'
 import { PipesModule } from '@libs/pipes/pipes.module'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { AgmCoreModule } from '@agm/core'
+import {environment} from '../environments/environment'
 
 @NgModule({
   declarations: [
@@ -40,7 +42,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
     TagModule,
     FooterModule,
     PipesModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    AgmCoreModule.forRoot({
+      apiKey: environment.apis.googleMaps
+    })
   ],
   providers: [
     WINDOW_PROVIDERS,

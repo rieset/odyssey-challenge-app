@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@agm/core@^3.0.0-beta.0":
+  version "3.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@agm/core/-/core-3.0.0-beta.0.tgz#a9cfbe10a435142076a74687856b1adcccdcbac1"
+  integrity sha512-KNmKbe89Nen7s7+mX63RgX88jBfajUZCFqkHIQ8Fd+Lf/ko/IY6yw4kPh0iYGxgPVPjpsHJ06GZ5m3ZxpEVX9A==
+  dependencies:
+    tslib "^2.0.0"
+
 "@angular-devkit/architect@0.1002.0":
   version "0.1002.0"
   resolved "https://registry.yarnpkg.com/@angular-devkit/architect/-/architect-0.1002.0.tgz#470b78aaf79308a23da6a0d3935f2d1f85dcb212"
@@ -1576,6 +1583,13 @@
     remark "^12.0.0"
     unist-util-find-all-after "^3.0.1"
 
+"@tinkoff/ng-dompurify@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@tinkoff/ng-dompurify/-/ng-dompurify-3.0.0.tgz#71338db56c047b9de67f05dc9f58c4080e6b4e4b"
+  integrity sha512-Gx153lEakv4nEDZXFd2vW2zK8fI7fJMu8ZaRaPgGcq1wrAe0ps/mCZdg9KXNdyLUvwTu3WFsJXj5CwCG6Zfucg==
+  dependencies:
+    tslib "^1.9.0"
+
 "@types/base64-js@^1.2.5":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@types/base64-js/-/base64-js-1.3.0.tgz#c939fdba49846861caf5a246b165dbf5698a317c"
@@ -1587,6 +1601,13 @@
   integrity sha512-0DH7aPGCClywOFaxxjE6UwpN2kQYe9LwuDQMv+zYA97j5GkOMo8e66LYT+a8JYU7jfmUFRZLa9KycxHDsKXJCA==
   dependencies:
     bignumber.js "*"
+
+"@types/dompurify@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@types/dompurify/-/dompurify-2.0.4.tgz#25fce15f1f4b1bc0df0ad957040cf226416ac2d7"
+  integrity sha512-y6K7NyXTQvjr8hJNsAFAD8yshCsIJ0d+OYEFzULuIqWyWOKL2hRru1I+rorI5U0K4SLAROTNuSUFXPDTu278YA==
+  dependencies:
+    "@types/trusted-types" "*"
 
 "@types/estree@*":
   version "0.0.45"
@@ -1605,6 +1626,11 @@
   dependencies:
     "@types/minimatch" "*"
     "@types/node" "*"
+
+"@types/googlemaps@3.39.12":
+  version "3.39.12"
+  resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.39.12.tgz#2546b5256a6555f929e130866ee2ee72931062fc"
+  integrity sha512-z1RMvlQfmsLbg5kc0dGjSHK7DL64mOCbbtqp/Le2M3ov7xPB1d+stia38hqmOXw5dPO1dL/5fscn73d0uomkbw==
 
 "@types/jasmine@*", "@types/jasmine@~3.5.0":
   version "3.5.14"
@@ -1731,6 +1757,11 @@
   integrity sha512-OmVjC9OzyUckAgdavJBc+t5oCJrNXTlzWl9vo2x47leqpX1REq2qJC49SEtzbu1OnWSzcD68Uq3Aj8TeX+Kvtg==
   dependencies:
     csstype "^3.0.2"
+
+"@types/trusted-types@*":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@types/trusted-types/-/trusted-types-1.0.6.tgz#569b8a08121d3203398290d602d84d73c8dcf5da"
+  integrity sha512-230RC8sFeHoT6sSUlRO6a8cAnclO06eeiq1QDfiv2FGCLWFvvERWgwIQD4FWqD9A69BN7Lzee4OXwoMVnnsWDw==
 
 "@types/unist@^2.0.0", "@types/unist@^2.0.2":
   version "2.0.3"
@@ -4304,6 +4335,11 @@ domhandler@^2.3.0:
   integrity sha512-JiK04h0Ht5u/80fdLMCEmV4zkNh2BcoMFBmZ/91WtYZ8qVXSKjiw7fXMgFPnHcSZgOo3XdinHvmnDUeMf5R4wA==
   dependencies:
     domelementtype "1"
+
+dompurify@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-2.2.2.tgz#cb8c2b1a2f3c8a0b565127504ae4eedec176a972"
+  integrity sha512-BsGR4nDLaC5CNBnyT5I+d5pOeaoWvgVeg6Gq/aqmKYWMPR07131u60I80BvExLAJ0FQEIBQ1BTicw+C5+jOyrg==
 
 domutils@^1.5.1, domutils@^1.7.0:
   version "1.7.0"

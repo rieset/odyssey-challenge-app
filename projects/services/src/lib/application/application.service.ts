@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Inject, Injectable} from '@angular/core'
-import {BehaviorSubject, combineLatest, Observable} from 'rxjs'
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs'
 import {
   ApplicationCertificatePublicModel,
   ApplicationDirectionModel,
@@ -10,7 +10,7 @@ import {
 } from '@services/application/application.model'
 import {
   bufferCount,
-  map,
+  map, pairwise, startWith,
   switchMap,
   take,
 } from 'rxjs/operators'
@@ -18,6 +18,7 @@ import {APP_CONSTANTS, AppConstantsInterface} from '@constants'
 import { GeoService } from '@services/geo/geo.service'
 import {GeoContractUpdatedModel, GeoContractModel} from '@services/geo/geo.model'
 import { generateAddress } from '@libs/utils/utils.library'
+import {LogService} from '@services/log/log.service'
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,7 @@ export class ApplicationService {
 
   private meterInDegree = (1 / ((2 * Math.PI / 360) * this.earthRadius)) / 1000
 
-  private movement$: BehaviorSubject<ApplicationTransportModel> = new BehaviorSubject('walking' as ApplicationTransportModel)
+  public movement$: BehaviorSubject<ApplicationTransportModel> = new BehaviorSubject('walking' as ApplicationTransportModel)
 
   private state$: BehaviorSubject<ApplicationStateModel> = new BehaviorSubject('free' as ApplicationStateModel)
 
@@ -46,15 +47,15 @@ export class ApplicationService {
 
   private alias: string = generateAddress()
 
-  private direction$: BehaviorSubject<ApplicationDirectionModel> = new BehaviorSubject(
+  public direction$: BehaviorSubject<ApplicationDirectionModel> = new BehaviorSubject(
       {
         x: this.getDirectionOnAxis(),
         y: this.getDirectionOnAxis()
       })
 
-  private speed$: Observable<ApplicationSpeedModel> = this.movement$.pipe(map((movement) => {
+  public speed$: Observable<ApplicationSpeedModel> = this.movement$.pipe(map((movement) => {
     if (movement === 'walking') {
-      return Math.random() * 4 + 1
+      return Math.random() * 4 + 2
     }
 
     if (movement === 'run') {
@@ -83,9 +84,8 @@ export class ApplicationService {
     lng: this.getDefaultLng(),
   })
 
-  private contracts$: Observable<GeoContractUpdatedModel[]> = this.position$.pipe(switchMap((position) => {
+  public contracts$: Observable<GeoContractUpdatedModel[]> = this.position$.pipe(switchMap((position) => {
     return this.geoService.geoContracts.pipe(map((contracts: GeoContractModel[]) => {
-      console.log('contracts', contracts)
       return contracts.map((hexagon) => {
         const distance = Math.sqrt(
             Math.pow((position.lat - hexagon.point.lat) / this.meterToLat(1), 2) +
@@ -97,11 +97,25 @@ export class ApplicationService {
         }
       })
     }))
-  }))
+  }),
+      startWith([]),
+      bufferCount(1),
+      map((stream: GeoContractUpdatedModel[][]): GeoContractUpdatedModel[] => {
+        const contracts: GeoContractUpdatedModel[] = stream && stream instanceof Array ? stream.shift() as GeoContractUpdatedModel[] : []
+        return contracts
+        .filter((hexagon) => {
+          return hexagon.contain
+        })
+        .sort((a, b) => {
+          return a.distance - b.distance
+        })
+      }),
+  )
 
   constructor (
       @Inject(APP_CONSTANTS) public readonly constants: AppConstantsInterface,
-      private readonly geoService: GeoService
+      private readonly geoService: GeoService,
+      private logService: LogService
   ) {
     // Create interval with calculation position and state
     setInterval(() => {
@@ -109,23 +123,21 @@ export class ApplicationService {
     }, this.updateInterval)
 
     this.contracts$.pipe(
-        bufferCount(3),
-        map((stream: GeoContractUpdatedModel[][]): GeoContractUpdatedModel[] => {
-          const contracts: GeoContractUpdatedModel[] = stream && stream instanceof Array ? stream.shift() as GeoContractUpdatedModel[] : []
-          return contracts
-            .filter((hexagon) => {
-              return hexagon.contain
-            })
-            .sort((a, b) => {
-              return a.distance - b.distance
-            })
-        }),
+        pairwise(),
+        switchMap(([first, second]) => {
+          if (!first || first.length === 0 || (first && first[0].address !== second[0].address)) {
+            return of(second)
+          }
+          return EMPTY
+        })
     ).subscribe((data: GeoContractUpdatedModel[]) => {
       const contract = data[0]
+      this.logService.apply(`Send <b<public</b> data: {alias: ${this.alias}, certificate: ${JSON.stringify(this.certificates[0])}}`)
+
       this.geoService.registerToContract(contract.address, {
         color: this.color,
         alias: this.alias,
-        certificates: this.certificates
+        certificate: this.certificates[0]
       }).subscribe(() => {
         this.alias = generateAddress()
         // this.cdr.markForCheck();
@@ -161,7 +173,6 @@ export class ApplicationService {
       const lat = direction.y === 0 ? position.lat : position.lat + this.meterToLat(speed * (this.updateInterval / 1000) * direction.y)
       const lng = direction.x === 0 ? position.lng : position.lng + this.meterToLng(speed * (this.updateInterval / 1000) * direction.x, lat)
 
-      console.log('>>', speed, state, direction, position)
       this.position$.next({
         lng,
         lat
@@ -170,7 +181,7 @@ export class ApplicationService {
   }
 
   getDirectionOnAxis () {
-    return Math.round(Math.random() * 3) - 1
+    return Math.round(Math.random() * 2.49) - 1
   }
 
   getDefaultLat () {
@@ -181,4 +192,7 @@ export class ApplicationService {
     return (Math.random() * (this.constants.geo.lngRange[1] - this.constants.geo.lngRange[0]) + this.constants.geo.lngRange[0])
   }
 
+  get position (): Observable<ApplicationPositionModel> {
+    return this.position$.pipe()
+  }
 }

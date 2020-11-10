@@ -1,3 +1,37 @@
-<div class="container">
+<div class="application" *ngIf="map$ | async as map" #agmMap>
+    <agm-map
+            (mapReady)="mapReady($event)"
+            minZoom="14"
+            maxZoom="16"
+            class="application__map"
+            [zoom]="15"
+            [disableDefaultUI]="true"
+    >
 
+        <agm-marker
+                [latitude]="map.lat"
+                [longitude]="map.lng"
+        ></agm-marker>
+
+        <ng-container *ngIf="contacts$ | async as contacts">
+            <agm-polygon
+                    *ngFor="let contract of contacts;let i = index; trackBy: trackByFn"
+                    [strokeColor]="i === 0 ? 'rgba(27,34,52,.3)' : 'rgba(27,34,52,.3)'"
+                    [fillColor]="i === 0 ? 'rgba(27,34,52,.5)' : 'rgba(27,34,52,.1)'"
+                    [paths]="contract.point | hexagon"
+            ></agm-polygon>
+        </ng-container>
+    </agm-map>
+
+    <div class="application__info">
+        <div class="application__info-speed">
+            Speed: {{ speed$ | async | number:'1.1-1' }} km/h
+        </div>
+        <div class="application__info-movement">
+            Movement: {{ movement$ | async }}
+        </div>
+        <div class="application__info-direction">
+            Direction: {{direction$ | async | json }}
+        </div>
+    </div>
 </div>
