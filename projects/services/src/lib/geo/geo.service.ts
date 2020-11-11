@@ -7,9 +7,9 @@ import {GeoContractModel, GeoContractUpdatedModel} from './geo.model'
 import {
   ApplicationPositionModel,
   ApplicationRegisterModel,
-} from '@services/application/application.model';
+} from '@services/application/application.model'
 import { LogService } from '@services/log/log.service'
-import {generateAddress} from '@libs/utils/utils.library';
+import {generateAddress} from '@libs/utils/utils.library'
 
 declare const JSEncrypt: object
 
@@ -47,8 +47,8 @@ export class GeoService {
     })
   }
 
-  public activationProtocol(contract: GeoContractUpdatedModel, position: ApplicationPositionModel, protocol: string) {
-    const subject  = new Subject();
+  public activationProtocol (contract: GeoContractUpdatedModel, position: ApplicationPositionModel, protocol: string) {
+    const subject  = new Subject()
     // @ts-ignore
     const encrypt = new JSEncrypt()
     encrypt.setPublicKey(contract.publicKeyOperators)
@@ -58,7 +58,7 @@ export class GeoService {
       lng: position.lng,
       protocol,
       certificate: []
-    }));
+    }))
 
     const uuid = generateAddress()
 
@@ -75,7 +75,7 @@ export class GeoService {
         accept: 'application/json; charset=utf-8'
       }
     }).subscribe((data) => {
-      subject.next(data);
+      subject.next(data)
     })
 
     return subject
