@@ -7,6 +7,7 @@
 
 .application {
   height: 100%;
+  position: relative;
   width: 100%;
 
   &__map {
@@ -22,5 +23,17 @@
     top: 30px;
 
     width: 25vw;
+  }
+
+  &__actions {
+    bottom: $padding;
+    left: $padding;
+    position: absolute;
+    right: $padding;
+    text-align: center;
+
+    &-btn {
+      margin: 0 10px;
+    }
   }
 }

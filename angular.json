@@ -172,7 +172,9 @@
             "styles": [
               "resources/styles/index.scss"
             ],
-            "scripts": [],
+            "scripts": [
+              "resources/assets/scripts/jsencrypt.js"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "resources/styles"

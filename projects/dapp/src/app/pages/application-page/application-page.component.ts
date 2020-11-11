@@ -1,11 +1,19 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core'
 import { ApplicationService } from '@services/application/application.service'
-import {map, take, takeUntil, tap} from 'rxjs/operators'
+import {
+  map,
+  publishReplay,
+  refCount,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 import {GeoUtils} from '@libs/geo/geo'
 import {combineLatest, Observable, Subject} from 'rxjs'
 import { ApplicationPositionModel } from '@services/application/application.model'
 import {AgmMap, GoogleMapsAPIWrapper } from '@agm/core'
 import {DestroyedSubject} from '@libs/decorators/destroyed-subject.decorator'
+import {GeoService} from '@services/geo/geo.service';
 
 
 export interface MapCoords extends ApplicationPositionModel {
@@ -28,7 +36,7 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
 
   public contacts$ = this.applicationService.contracts$.pipe(tap((data) => {
     console.log('data', data)
-  }))
+  }), publishReplay(1), refCount())
 
   public readonly map$: Observable<MapCoords> = this.applicationService.position.pipe(map((position) => {
     const deltaY = GeoUtils.meterToLat(300)
@@ -47,6 +55,7 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
 
   constructor (
       private applicationService: ApplicationService,
+      private geoService: GeoService,
   ) {
 
   }
@@ -69,4 +78,19 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy () {}
+
+  createEmergencySituation(protocol: string) {
+    combineLatest([
+      this.applicationService.position,
+      this.contacts$
+    ])
+    .pipe(take(1))
+    .subscribe(([position, contracts]) => {
+      if (contracts && contracts[0]) {
+        this.geoService.activationProtocol(contracts[0], position, protocol);
+      } else {
+
+      }
+    })
+  }
 }

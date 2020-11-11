@@ -4,8 +4,8 @@
 
 $app-theme-light: mat-light-theme((
   color: (
-    primary: $mat-blue,
-    accent: $mat-red
+    primary: mat-palette($mat-blue),
+    accent: mat-palette($mat-red)
   )
 ));
 

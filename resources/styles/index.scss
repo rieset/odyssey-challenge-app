@@ -25,6 +25,7 @@
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($app-theme-light);
+//@include angular-material-color($app-theme-light);
 
 //html,
 //body {}

@@ -4,6 +4,7 @@ export interface GeoContractModel {
   z: number
   zoom: number
   address: string
+  publicKeyOperators: string
   point: {lat: number, lng: number}
 }
 

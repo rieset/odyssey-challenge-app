@@ -166,17 +166,22 @@ export class ApplicationService {
 
     // Chance 10% // Change direction
     if (Math.random() < .1) {
-      let xDirection = this.getDirectionOnAxis()
-      let yDirection = this.getDirectionOnAxis()
+      this.movement$.pipe(take(1)).subscribe((move) => {
+        let xDirection = 0
+        let yDirection = 0
 
-      while (xDirection + yDirection === 0 && xDirection - yDirection === 0) {
-        xDirection = this.getDirectionOnAxis()
-        yDirection = this.getDirectionOnAxis()
-      }
+        if (move !== 'stay') {
+          while (xDirection + yDirection === 0 && xDirection - yDirection === 0) {
+            xDirection = this.getDirectionOnAxis()
+            yDirection = this.getDirectionOnAxis()
+          }
+        }
 
-      this.direction$.next({
-        x: xDirection,
-        y: yDirection
+        this.direction$.next({
+          x: xDirection,
+          y: yDirection
+        })
+
       })
     }
 

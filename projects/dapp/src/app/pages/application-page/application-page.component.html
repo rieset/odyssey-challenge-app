@@ -1,11 +1,12 @@
 <div class="application" *ngIf="map$ | async as map" #agmMap>
     <agm-map
             (mapReady)="mapReady($event)"
-            minZoom="14"
+            minZoom="13"
             maxZoom="16"
             class="application__map"
-            [zoom]="15"
+            [zoom]="14"
             [disableDefaultUI]="true"
+            [restriction]="{latLngBounds: {north: map.lat + .05, south: map.lat - .05, west: map.lng -.05, east: map.lng + .05}}"
     >
 
         <agm-marker
@@ -33,5 +34,11 @@
         <div class="application__info-direction">
             Direction: {{direction$ | async | json }}
         </div>
+    </div>
+
+    <div class="application__actions">
+        <button class="application__actions-btn" (click)="createEmergencySituation('protocol-emergency')" mat-button mat-raised-button color="warn">Emergency situation</button>
+        <button class="application__actions-btn" (click)="createEmergencySituation('protocol-fire')" mat-button mat-raised-button color="warn">Fire</button>
+        <button class="application__actions-btn" (click)="createEmergencySituation('protocol-police')" mat-button mat-raised-button color="warn">Robbery</button>
     </div>
 </div>
