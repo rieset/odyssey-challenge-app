@@ -5,7 +5,7 @@ import { ApplicationPageRoutingModule } from './application-page-routing.module'
 import { ApplicationPageComponent } from './application-page.component'
 import {AgmCoreModule} from '@agm/core'
 import {PipesModule} from '@libs/pipes/pipes.module'
-import {MatButtonModule} from '@angular/material/button';
+import {MatButtonModule} from '@angular/material/button'
 
 @NgModule({
   declarations: [ApplicationPageComponent],

@@ -149,7 +149,7 @@ export class ApplicationService {
         this.direction$.next({x: 0, y: 0})
       }
 
-      this.movement$.next(ApplicationTransportVariants[Math.round(Math.random() * 5)])
+      this.movement$.next(ApplicationTransportVariants[Math.round(Math.random() * 2)])
     }
 
     // Chance 10% // Change direction

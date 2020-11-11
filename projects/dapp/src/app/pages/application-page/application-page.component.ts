@@ -7,13 +7,13 @@ import {
   take,
   takeUntil,
   tap,
-} from 'rxjs/operators';
+} from 'rxjs/operators'
 import {GeoUtils} from '@libs/geo/geo'
 import {combineLatest, Observable, Subject} from 'rxjs'
 import { ApplicationPositionModel } from '@services/application/application.model'
 import {AgmMap, GoogleMapsAPIWrapper } from '@agm/core'
 import {DestroyedSubject} from '@libs/decorators/destroyed-subject.decorator'
-import {GeoService} from '@services/geo/geo.service';
+import {GeoService} from '@services/geo/geo.service'
 
 
 export interface MapCoords extends ApplicationPositionModel {
@@ -79,7 +79,7 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy () {}
 
-  createEmergencySituation(protocol: string) {
+  createEmergencySituation (protocol: string) {
     combineLatest([
       this.applicationService.position,
       this.contacts$
@@ -87,7 +87,7 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
     .pipe(take(1))
     .subscribe(([position, contracts]) => {
       if (contracts && contracts[0]) {
-        this.geoService.activationProtocol(contracts[0], position, protocol);
+        this.geoService.activationProtocol(contracts[0], position, protocol)
       } else {
 
       }
