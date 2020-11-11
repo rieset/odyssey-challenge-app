@@ -1,7 +1,5 @@
-import { GeoContractUpdatedModel } from '@services/geo/geo.model'
-
-export type ApplicationTransportModel = 'stay' | 'walking' | 'run' | 'bike' | 'auto' | 'public transport'
-export const ApplicationTransportVariants: ApplicationTransportModel[] = ['stay', 'walking', 'run', 'bike', 'public transport', 'auto']
+export type ApplicationTransportModel = 'stay' | 'walking' | 'run'
+export const ApplicationTransportVariants: ApplicationTransportModel[] = ['stay', 'walking', 'run']
 
 export type ApplicationStateModel = 'busy' | 'free'
 

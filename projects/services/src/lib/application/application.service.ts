@@ -62,18 +62,6 @@ export class ApplicationService {
       return Math.random() * 10 + 5
     }
 
-    if (movement === 'bike') {
-      return Math.random() * 25 + 5
-    }
-
-    if (movement === 'auto') {
-      return Math.random() * 45 + 15
-    }
-
-    if (movement === 'public transport') {
-      return Math.random() * 30 + 15
-    }
-
     return 0
   }), map((speed) => {
     return (speed / 60 / 60) * 1000 // meter in second
