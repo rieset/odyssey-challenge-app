@@ -27,7 +27,7 @@ export class ApplicationService {
 
   private color = `rgb(${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)})`
 
-  private updateInterval = 3000
+  private updateInterval = 1000
 
   private zoom = 1000
 
@@ -55,7 +55,7 @@ export class ApplicationService {
 
   public speed$: Observable<ApplicationSpeedModel> = this.movement$.pipe(map((movement) => {
     if (movement === 'walking') {
-      return Math.random() * 4 + 2
+      return (Math.random() * 4) + 3
     }
 
     if (movement === 'run') {
@@ -144,34 +144,38 @@ export class ApplicationService {
   tick () {
     // Chance 5% // Change transport
     if (Math.random() < .05) {
-      const variants = ApplicationTransportVariants[Math.round(Math.random() * 5)]
-      if (variants === 'stay') {
-        this.direction$.next({x: 0, y: 0})
-      }
-
       this.movement$.next(ApplicationTransportVariants[Math.round(Math.random() * 2)])
     }
 
+    // if (Math.random() < .05) {
+    //   const variants = ApplicationTransportVariants[Math.round(Math.random() * 5)]
+    //   if (variants === 'stay') {
+    //     this.direction$.next({x: 0, y: 0})
+    //   }
+    //
+    //   this.movement$.next(ApplicationTransportVariants[Math.round(Math.random() * 2)])
+    // }
+
     // Chance 10% // Change direction
-    if (Math.random() < .1) {
-      this.movement$.pipe(take(1)).subscribe((move) => {
-        let xDirection = 0
-        let yDirection = 0
-
-        if (move !== 'stay') {
-          while (xDirection + yDirection === 0 && xDirection - yDirection === 0) {
-            xDirection = this.getDirectionOnAxis()
-            yDirection = this.getDirectionOnAxis()
-          }
-        }
-
-        this.direction$.next({
-          x: xDirection,
-          y: yDirection
-        })
-
-      })
-    }
+    // if (Math.random() < .1) {
+    //   this.movement$.pipe(take(1)).subscribe((move) => {
+    //     let xDirection = 0
+    //     let yDirection = 0
+    //
+    //     if (move !== 'stay') {
+    //       while (xDirection + yDirection === 0 && xDirection - yDirection === 0) {
+    //         xDirection = this.getDirectionOnAxis()
+    //         yDirection = this.getDirectionOnAxis()
+    //       }
+    //     }
+    //
+    //     this.direction$.next({
+    //       x: xDirection,
+    //       y: yDirection
+    //     })
+    //
+    //   })
+    // }
 
     combineLatest([this.speed$, this.state$, this.direction$, this.position$])
     .pipe(take(1))

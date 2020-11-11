@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ApplicationService } from '@services/application/application.service'
 import {
   map,
@@ -10,7 +16,10 @@ import {
 } from 'rxjs/operators'
 import {GeoUtils} from '@libs/geo/geo'
 import {combineLatest, Observable, Subject} from 'rxjs'
-import { ApplicationPositionModel } from '@services/application/application.model'
+import {
+  ApplicationDirectionModel,
+  ApplicationPositionModel,
+} from '@services/application/application.model';
 import {AgmMap, GoogleMapsAPIWrapper } from '@agm/core'
 import {DestroyedSubject} from '@libs/decorators/destroyed-subject.decorator'
 import {GeoService} from '@services/geo/geo.service'
@@ -35,13 +44,14 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
   private gMap$: Subject<GoogleMapsAPIWrapper> = new Subject()
 
   public contacts$ = this.applicationService.contracts$.pipe(tap((data) => {
-    console.log('data', data)
+
   }), publishReplay(1), refCount())
 
   public readonly map$: Observable<MapCoords> = this.applicationService.position.pipe(map((position) => {
     const deltaY = GeoUtils.meterToLat(300)
     const deltaX = GeoUtils.meterToLng(300, position.lat)
 
+    this.cdr.markForCheck();
     return {
       ...position,
       mapLat: position.lat + deltaY,
@@ -49,13 +59,16 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
     }
   }))
 
-  public readonly speed$ = this.applicationService.speed$.pipe(takeUntil(this.destroyed$))
+  public readonly speed$ = this.applicationService.speed$.pipe(takeUntil(this.destroyed$), map((speed) => {
+    return  (speed * 60 * 60 ) / 1000
+  }))
   public readonly movement$ = this.applicationService.movement$.pipe(takeUntil(this.destroyed$))
   public readonly direction$ = this.applicationService.direction$.pipe(takeUntil(this.destroyed$))
 
   constructor (
       private applicationService: ApplicationService,
       private geoService: GeoService,
+      private cdr: ChangeDetectorRef
   ) {
 
   }
@@ -64,7 +77,6 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
     combineLatest([this.gMap$, this.map$])
     .pipe(takeUntil(this.destroyed$))
     .subscribe(([gMap, position]) => {
-      console.log('Set position')
       gMap.setCenter(position)
     })
   }
@@ -91,6 +103,14 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
       } else {
 
       }
+    })
+  }
+
+  setDerection(direction: ApplicationDirectionModel) {
+    const d = this.applicationService.direction$.getValue();
+    this.applicationService.direction$.next({
+      x: (((d.x + (direction.x || 0)) % 2)),
+      y: (((d.y + (direction.y || 0)) % 2))
     })
   }
 }
