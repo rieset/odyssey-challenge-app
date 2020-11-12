@@ -53,6 +53,11 @@ const routes: Routes = [
         path: environment.routing.stylesheet,
         loadChildren: () => import('./pages/stylesheet-page/stylesheet-page.module').then((m) => m.StylesheetPageModule),
         pathMatch: 'full'
+      },
+      {
+        path: environment.routing.getCertificate,
+        loadChildren: () => import('./pages/get-certificate-page/get-certificate-page.module').then((m) => m.GetCertificatePageModule),
+        pathMatch: 'full'
       }
     ]
   },

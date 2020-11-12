@@ -7,3 +7,28 @@
     url('../assets/fonts/Montserrat-Regular.woff') format('woff'),
     url('../assets/fonts/Montserrat-Regular.ttf') format('truetype');
 }
+
+// Suisse
+@font-face {
+  font-family: 'Suisse';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../assets/fonts/suisse/SuisseIntl-Regular.woff2') format('woff2'),
+    url('../assets/fonts/suisse/SuisseIntl-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Suisse';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../assets/fonts/suisse/SuisseIntl-Medium.woff2') format('woff2'),
+    url('../assets/fonts/suisse/SuisseIntl-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Suisse';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../assets/fonts/suisse/SuisseIntl-SemiBold.woff2') format('woff2'),
+    url('../assets/fonts/suisse/SuisseIntl-SemiBold.woff') format('woff');
+}
