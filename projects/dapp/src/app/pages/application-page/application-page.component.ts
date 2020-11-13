@@ -4,7 +4,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
-} from '@angular/core';
+} from '@angular/core'
 import { ApplicationService } from '@services/application/application.service'
 import {
   map,
@@ -17,9 +17,10 @@ import {
 import {GeoUtils} from '@libs/geo/geo'
 import {combineLatest, Observable, Subject} from 'rxjs'
 import {
+  ApplicationDirectionInputModel,
   ApplicationDirectionModel,
   ApplicationPositionModel,
-} from '@services/application/application.model';
+} from '@services/application/application.model'
 import {AgmMap, GoogleMapsAPIWrapper } from '@agm/core'
 import {DestroyedSubject} from '@libs/decorators/destroyed-subject.decorator'
 import {GeoService} from '@services/geo/geo.service'
@@ -51,7 +52,7 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
     const deltaY = GeoUtils.meterToLat(300)
     const deltaX = GeoUtils.meterToLng(300, position.lat)
 
-    this.cdr.markForCheck();
+    this.cdr.markForCheck()
     return {
       ...position,
       mapLat: position.lat + deltaY,
@@ -106,8 +107,8 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
     })
   }
 
-  setDerection(direction: ApplicationDirectionModel) {
-    const d = this.applicationService.direction$.getValue();
+  setDerection (direction: ApplicationDirectionInputModel) {
+    const d = this.applicationService.direction$.getValue()
     this.applicationService.direction$.next({
       x: (((d.x + (direction.x || 0)) % 2)),
       y: (((d.y + (direction.y || 0)) % 2))

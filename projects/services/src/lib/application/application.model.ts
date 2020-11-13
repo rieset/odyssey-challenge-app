@@ -10,6 +10,11 @@ export interface ApplicationDirectionModel {
   y: number
 }
 
+export interface ApplicationDirectionInputModel {
+  x?: number
+  y?: number
+}
+
 export interface ApplicationPositionModel {
   lat: number
   lng: number
