@@ -1,0 +1,54 @@
+/* stylelint-disable */
+.mat-form-rounded-theme{
+  .mat-form-field:not(.mat-form-field-has-label){
+    .mat-form-field-flex{
+      background: #F2F2F5;
+      border-radius: 5px;
+    }
+    .mat-form-field-infix {
+      border-top-width: 0;
+    }
+    .mat-form-field-outline{
+      div{
+        border-color: #F2F2F5;
+      }
+    }
+  }
+
+  .mat-radio-button{
+    .mat-radio-label{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #F2F2F5;
+      color: #6A6A6C;
+      border-radius: rem(15);
+      white-space: nowrap;
+      padding: rem(12) rem(24);
+      font-size: rem(16);
+      line-height: calc(24/16);
+      transition: all 0.15s ease;
+    }
+    .mat-radio-label-content{
+      padding-left: 0;
+    }
+    .mat-radio-container{
+      display: none;
+    }
+    &.mat-radio-checked{
+      .mat-radio-label{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #C2D6FD;
+        color: #0055FF;
+        border-radius: rem(15);
+        white-space: nowrap;
+        padding: rem(12) rem(24);
+        font-size: rem(16);
+        line-height: calc(24/16);
+      }
+    }
+  }
+}
+/* stylelint-enable */

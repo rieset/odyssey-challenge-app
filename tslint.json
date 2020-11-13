@@ -69,7 +69,8 @@
       true,
       "ignore-params"
     ],
-    "no-non-null-assertion": true,
+    "no-unsafe-any": false,
+    "no-non-null-assertion": false,
     "no-redundant-jsdoc": true,
     "no-switch-case-fall-through": true,
     "no-var-requires": false,
@@ -81,11 +82,7 @@
       true,
       "single"
     ],
-    "semicolon": {
-      "options": [
-        "never"
-      ]
-    },
+    "semicolon": [false],
     "space-before-function-paren": {
       "options": {
         "anonymous": "always",

@@ -1,0 +1,125 @@
+@import 'mixins';
+
+:host {
+  flex: 1 1 auto;
+}
+
+.get-certificate-page {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Suisse';
+  min-height: var();
+  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
+
+  &__layout {
+    display: flex;
+    flex: 1 0 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: rem(80) rem(30);
+  }
+
+  &__title {
+    font-size: rem(32);
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  &__choose-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__categories {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: rem(24) auto 0;
+    opacity: 0.4;
+
+    &.active {
+      opacity: 1;
+    }
+  }
+
+  &__category {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-right: rem(8);
+    margin-top: rem(8);
+  }
+
+  &__separator {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: rem(24) auto;
+    position: relative;
+    width: 100%;
+
+    &::before {
+      background: #d5d5e3;
+      content: '';
+      height: 1px;
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translateX(-50%);
+      width: 200%;
+    }
+
+    span {
+      background: #fff;
+      color: #d5d5e3;
+      font-size: rem(12);
+      font-weight: 600;
+      line-height: calc(16/12);
+      padding: 0 rem(10);
+      position: relative;
+      text-transform: uppercase;
+      z-index: 1;
+    }
+  }
+
+  &__enter-id {
+    opacity: 0.4;
+
+    &.active {
+      opacity: 1;
+    }
+  }
+
+  &__steps {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: rem(40) auto;
+
+    &-item {
+      background: #d5d5e3;
+      border-radius: 1000px;
+      cursor: pointer;
+      height: rem(6);
+      margin-right: rem(8);
+      transition: all 0.15s ease;
+      width: rem(6);
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &.active {
+        background: #05f;
+        width: rem(32);
+      }
+    }
+  }
+  //&__main-button{
+  //
+  //}
+}

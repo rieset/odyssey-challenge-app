@@ -31,7 +31,8 @@ export const environment = {
     applyGrant: 'apply-grant/:entityId',
     setting: 'settings',
     create: 'create',
-    stylesheet: 'stylesheet'
+    stylesheet: 'stylesheet',
+    getCertificate: 'get-certificate',
   }
 }
 
