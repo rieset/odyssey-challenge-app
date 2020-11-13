@@ -1,4 +1,4 @@
 /*
  * Public API Surface of services
  */
-export * from './window.service'
+export * from './window.service';

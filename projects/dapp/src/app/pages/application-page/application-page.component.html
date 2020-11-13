@@ -6,6 +6,7 @@
             class="application__map"
             [zoom]="14"
             [disableDefaultUI]="true"
+            [styles]="styles"
             [restriction]="{latLngBounds: {north: map.lat + .05, south: map.lat - .05, west: map.lng -.05, east: map.lng + .05}}"
     >
 

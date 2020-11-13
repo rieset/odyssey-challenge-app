@@ -24,6 +24,7 @@ import {
 import {AgmMap, GoogleMapsAPIWrapper } from '@agm/core'
 import {DestroyedSubject} from '@libs/decorators/destroyed-subject.decorator'
 import {GeoService} from '@services/geo/geo.service'
+import { styles } from './application-page.map'
 
 
 export interface MapCoords extends ApplicationPositionModel {
@@ -44,9 +45,9 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
 
   private gMap$: Subject<GoogleMapsAPIWrapper> = new Subject()
 
-  public contacts$ = this.applicationService.contracts$.pipe(tap((data) => {
+  public contacts$ = this.applicationService.contracts$.pipe(tap((data) => {}), publishReplay(1), refCount())
 
-  }), publishReplay(1), refCount())
+  public styles = styles;
 
   public readonly map$: Observable<MapCoords> = this.applicationService.position.pipe(map((position) => {
     const deltaY = GeoUtils.meterToLat(300)
