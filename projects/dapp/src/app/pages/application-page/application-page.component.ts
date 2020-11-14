@@ -1,10 +1,11 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, Inject,
+  Component, ElementRef, Inject,
   OnDestroy,
-  OnInit,
-} from '@angular/core';
+  OnInit, PLATFORM_ID, ViewChild,
+} from '@angular/core'
 import { ApplicationService } from '@services/application/application.service'
 import {
   map,
@@ -25,7 +26,8 @@ import {AgmMap, GoogleMapsAPIWrapper } from '@agm/core'
 import {DestroyedSubject} from '@libs/decorators/destroyed-subject.decorator'
 import {GeoService} from '@services/geo/geo.service'
 import { styles } from './application-page.map'
-import { TransactionService } from '@services/transaction/transaction.service'
+import {isPlatformBrowser} from '@angular/common';
+import Joystick from './joystick'
 import {APP_CONSTANTS, AppConstantsInterface} from '@constants';
 
 
@@ -38,14 +40,16 @@ export interface MapCoords extends ApplicationPositionModel {
   selector: 'app-application-page',
   templateUrl: './application-page.component.html',
   styleUrls: ['./application-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ApplicationPageComponent implements OnInit, OnDestroy {
+export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @DestroyedSubject()
   private destroyed$!: Subject<null>
 
   private gMap$: Subject<GoogleMapsAPIWrapper> = new Subject()
+
+  @ViewChild('joystickNode') joystickNode: ElementRef | undefined;
 
   public contacts$ = this.applicationService.contracts$.pipe(tap((data) => {}), publishReplay(1), refCount())
 
@@ -68,16 +72,19 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
   }))
   public readonly movement$ = this.applicationService.movement$.pipe(takeUntil(this.destroyed$))
   public readonly direction$ = this.applicationService.direction$.pipe(takeUntil(this.destroyed$))
-
+  isBrowser: boolean;
+  joystick: Joystick|null;
   constructor (
       private applicationService: ApplicationService,
       private geoService: GeoService,
       private cdr: ChangeDetectorRef,
-      private transactionService: TransactionService,
-      @Inject(APP_CONSTANTS) public readonly constants: AppConstantsInterface,
+      @Inject(PLATFORM_ID) platformId: object,
+      @Inject(APP_CONSTANTS) public constants: AppConstantsInterface,
   ) {
-
+    this.joystick = null;
+    this.isBrowser = isPlatformBrowser(platformId);
   }
+
 
   ngOnInit (): void {
     combineLatest([this.gMap$, this.map$])
@@ -85,6 +92,12 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
     .subscribe(([gMap, position]) => {
       gMap.setCenter(position)
     })
+  }
+
+  ngAfterViewInit (){
+    if (this.isBrowser && this.joystickNode) {
+      this.joystick = new Joystick (this.joystickNode.nativeElement as HTMLElement, this.applicationService);
+    }
   }
 
   trackByFn (index: number) {
@@ -95,7 +108,11 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
     this.gMap$.next(gMap)
   }
 
-  ngOnDestroy () {}
+  ngOnDestroy () {
+    if (this.joystick){
+      this.joystick.destroy();
+    }
+  }
 
   createEmergencySituation (protocol: string) {
     combineLatest([
@@ -119,9 +136,4 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
       y: (((d.y + (direction.y || 0)) % 2))
     })
   }
-
-  createTransaction () {
-    this.transactionService.create();
-  }
-
 }

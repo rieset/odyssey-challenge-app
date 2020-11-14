@@ -33,28 +33,25 @@
     </agm-map>
 
     <div class="application__info">
-        <div class="application__info-speed">
-            Speed: {{ speed$ | async | number:'1.1-1' }} km/h
-        </div>
-        <div class="application__info-movement">
-            Movement: {{ movement$ | async }}
-        </div>
-        <div class="application__info-direction">
-            Direction: {{direction$ | async | json }}
-        </div>
+      <div class="application__info-speed">
+        Speed: {{ speed$ | async | number:'1.1-1' }} km/h
+      </div>
+      <div class="application__info-movement">
+        Movement: {{ movement$ | async }}
+      </div>
+      <div class="application__info-direction">
+        Direction: {{direction$ | async | json }}
+      </div>
     </div>
 
     <div class="application__actions">
-        <button class="application__actions-btn" (click)="createTransaction()" mat-button mat-raised-button color="warn">Emergency situation</button>
-        <button class="application__actions-btn" (click)="createEmergencySituation('protocol-fire')" mat-button mat-raised-button color="warn">Fire</button>
-        <button class="application__actions-btn" (click)="createEmergencySituation('protocol-police')" mat-button mat-raised-button color="warn">Robbery</button>
+      <button class="application__actions-btn" (click)="createEmergencySituation('protocol-emergency')" mat-button mat-raised-button color="warn">Emergency situation</button>
+      <button class="application__actions-btn" (click)="createEmergencySituation('protocol-fire')" mat-button mat-raised-button color="warn">Fire</button>
+      <button class="application__actions-btn" (click)="createEmergencySituation('protocol-police')" mat-button mat-raised-button color="warn">Robbery</button>
     </div>
 
-    <div class="application__control">
-        <div (click)="setDerection({x: -1})" class="application__control-arrow">⬅️</div>
-        <div (click)="setDerection({x: 1})" class="application__control-arrow">➡️</div>
-        <div (click)="setDerection({y: 1})" class="application__control-arrow">⬆️</div>
-        <div (click)="setDerection({y: -1})" class="application__control-arrow">⬇️</div>
+    <div class="application__control" id="joystick-main">
+      <div #joystickNode class="joystick-base"></div>
     </div>
 
     <div class="application__certificates">

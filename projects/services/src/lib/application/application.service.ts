@@ -27,7 +27,7 @@ export class ApplicationService {
 
   private color = `rgb(${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)})`
 
-  private updateInterval = 1000
+  private updateInterval = 200
 
   private zoom = 1000
 
@@ -51,15 +51,7 @@ export class ApplicationService {
         y: this.getDirectionOnAxis()
       })
 
-  public speed$: Observable<ApplicationSpeedModel> = this.movement$.pipe(map((movement) => {
-    if (movement === 'bike') {
-      return (Math.random() * 10) + 5
-    }
-
-    return 0
-  }), map((speed) => {
-    return (speed / 60 / 60) * 1000 // meter in second
-  }))
+  public speed$: BehaviorSubject<ApplicationSpeedModel> = new BehaviorSubject(0);
 
   private position$: BehaviorSubject<ApplicationPositionModel> = new BehaviorSubject({
     lat: this.getDefaultLat(),
@@ -129,27 +121,6 @@ export class ApplicationService {
   meterToLng (meter: number, latitude: number) {
     return meter * this.meterInDegree / Math.cos(latitude * (Math.PI / 180))
   }
-
-  // tick () {
-  //   // Chance 5% // Change transport
-  //   if (Math.random() < .05) {
-  //     this.movement$.next(ApplicationTransportVariants[Math.round(Math.random() * 2)])
-  //   }
-  //
-  //   combineLatest([this.speed$, this.state$, this.direction$, this.position$])
-  //   .pipe(take(1))
-  //   .subscribe(([speed, state, direction, position]) => {
-  //     const lat = direction.y === 0 ? position.lat : position.lat +
-  //     this.meterToLat(speed * (this.updateInterval / 1000) * direction.y)
-  //     const lng = direction.x === 0 ? position.lng : position.lng +
-  //     this.meterToLng(speed * (this.updateInterval / 1000) * direction.x, lat)
-  //
-  //     this.position$.next({
-  //       lng,
-  //       lat
-  //     })
-  //   })
-  // }
 
   getDirectionOnAxis () {
     return Math.round(Math.random() * 2.49) - 1
