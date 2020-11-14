@@ -35,9 +35,7 @@ export class ApplicationService {
 
   private meterInDegree = (1 / ((2 * Math.PI / 360) * this.earthRadius)) / 1000
 
-  public movement$: BehaviorSubject<ApplicationTransportModel> = new BehaviorSubject('walking' as ApplicationTransportModel)
-
-  private state$: BehaviorSubject<ApplicationStateModel> = new BehaviorSubject('free' as ApplicationStateModel)
+  public movement$: BehaviorSubject<ApplicationTransportModel> = new BehaviorSubject('bike' as ApplicationTransportModel)
 
   private address: string = generateAddress()
 
@@ -69,7 +67,7 @@ export class ApplicationService {
         return {
           ...hexagon,
           distance,
-          contain: distance <= 1000 // Get hexagons on 2*R
+          contain: distance <= 400 // Get hexagons on 2*R
         }
       })
     }))
@@ -93,11 +91,6 @@ export class ApplicationService {
       private readonly geoService: GeoService,
       private logService: LogService
   ) {
-    // Create interval with calculation position and state
-    setInterval(() => {
-      this.tick()
-    }, this.updateInterval)
-
     this.contracts$.pipe(
         pairwise(),
         switchMap(([first, second]) => {
@@ -129,54 +122,24 @@ export class ApplicationService {
     return meter * this.meterInDegree / Math.cos(latitude * (Math.PI / 180))
   }
 
-  tick () {
-    // Chance 5% // Change transport
-    if (Math.random() < .05) {
-      this.movement$.next(ApplicationTransportVariants[Math.round(Math.random() * 2)])
-    }
-
-    // if (Math.random() < .05) {
-    //   const variants = ApplicationTransportVariants[Math.round(Math.random() * 5)]
-    //   if (variants === 'stay') {
-    //     this.direction$.next({x: 0, y: 0})
-    //   }
-    //
-    //   this.movement$.next(ApplicationTransportVariants[Math.round(Math.random() * 2)])
-    // }
-
-    // Chance 10% // Change direction
-    // if (Math.random() < .1) {
-    //   this.movement$.pipe(take(1)).subscribe((move) => {
-    //     let xDirection = 0
-    //     let yDirection = 0
-    //
-    //     if (move !== 'stay') {
-    //       while (xDirection + yDirection === 0 && xDirection - yDirection === 0) {
-    //         xDirection = this.getDirectionOnAxis()
-    //         yDirection = this.getDirectionOnAxis()
-    //       }
-    //     }
-    //
-    //     this.direction$.next({
-    //       x: xDirection,
-    //       y: yDirection
-    //     })
-    //
-    //   })
-    // }
-
-    combineLatest([this.speed$, this.state$, this.direction$, this.position$])
-    .pipe(take(1))
-    .subscribe(([speed, state, direction, position]) => {
-      const lat = direction.y === 0 ? position.lat : position.lat + this.meterToLat(speed * (this.updateInterval / 1000) * direction.y)
-      const lng = direction.x === 0 ? position.lng : position.lng + this.meterToLng(speed * (this.updateInterval / 1000) * direction.x, lat)
-
-      this.position$.next({
-        lng,
-        lat
-      })
-    })
-  }
+  // tick () {
+  //   // Chance 5% // Change transport
+  //   if (Math.random() < .05) {
+  //     this.movement$.next(ApplicationTransportVariants[Math.round(Math.random() * 2)])
+  //   }
+  //
+  //   combineLatest([this.speed$, this.state$, this.direction$, this.position$])
+  //   .pipe(take(1))
+  //   .subscribe(([speed, state, direction, position]) => {
+  //     const lat = direction.y === 0 ? position.lat : position.lat + this.meterToLat(speed * (this.updateInterval / 1000) * direction.y)
+  //     const lng = direction.x === 0 ? position.lng : position.lng + this.meterToLng(speed * (this.updateInterval / 1000) * direction.x, lat)
+  //
+  //     this.position$.next({
+  //       lng,
+  //       lat
+  //     })
+  //   })
+  // }
 
   getDirectionOnAxis () {
     return Math.round(Math.random() * 2.49) - 1

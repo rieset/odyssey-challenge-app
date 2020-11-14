@@ -1,5 +1,5 @@
-export type ApplicationTransportModel = 'stay' | 'walking' | 'run'
-export const ApplicationTransportVariants: ApplicationTransportModel[] = ['stay', 'walking', 'run']
+export type ApplicationTransportModel = 'bike'
+export const ApplicationTransportVariants: ApplicationTransportModel[] = ['bike']
 
 export type ApplicationStateModel = 'busy' | 'free'
 

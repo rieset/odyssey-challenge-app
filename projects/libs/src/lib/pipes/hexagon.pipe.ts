@@ -10,28 +10,28 @@ export class HexagonPipe implements PipeTransform {
 
     return [
       {
-        lat: lat - GeoUtils.meterToLat(radius ? radius / 2 : 250),
-        lng: lng - GeoUtils.meterToLng(radius || 515, lat)
+        lat: lat - GeoUtils.meterToLat(radius ? radius / 2 : 75),
+        lng: lng - GeoUtils.meterToLng(radius || 155, lat)
       },
       {
-        lat: lat - GeoUtils.meterToLat(radius || 500),
-        lng: lng - GeoUtils.meterToLng(radius ? 0 : 45, lat)
+        lat: lat - GeoUtils.meterToLat(radius || 150),
+        lng: lng - GeoUtils.meterToLng(radius ? 0 : 10, lat)
       },
       {
-        lat: lat - GeoUtils.meterToLat(radius ? radius / 2 : 250),
-        lng: lng + GeoUtils.meterToLng(radius || 485, lat)
+        lat: lat - GeoUtils.meterToLat(radius ? radius / 2 : 75),
+        lng: lng + GeoUtils.meterToLng(radius || 145, lat)
       },
       {
-        lat: lat + GeoUtils.meterToLat(radius ? radius / 2 : 250),
-        lng: lng + GeoUtils.meterToLng(radius || 500, lat)
+        lat: lat + GeoUtils.meterToLat(radius ? radius / 2 : 75),
+        lng: lng + GeoUtils.meterToLng(radius || 150, lat)
       },
       {
-        lat: lat + GeoUtils.meterToLat(radius || 500),
-        lng: lng + GeoUtils.meterToLng(radius ? 0 : 30, lat)
+        lat: lat + GeoUtils.meterToLat(radius || 150),
+        lng: lng + GeoUtils.meterToLng(radius ? 0 : 0, lat)
       },
       {
-        lat: lat + GeoUtils.meterToLat(radius ? radius / 2 : 250),
-        lng: lng - GeoUtils.meterToLng(radius || 500, lat)
+        lat: lat + GeoUtils.meterToLat(radius ? radius / 2 : 75),
+        lng: lng - GeoUtils.meterToLng(radius || 150, lat)
       }
     ]
   }

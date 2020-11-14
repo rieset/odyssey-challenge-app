@@ -46,6 +46,13 @@
     position: absolute;
     top: 50%;
   }
+
+  &__certificates {
+    left: 10px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
 }
 
 .joystick-base {

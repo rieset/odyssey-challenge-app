@@ -1,33 +1,35 @@
 <div class="application" *ngIf="map$ | async as map" #agmMap>
-  <agm-map
-    (mapReady)="mapReady($event)"
-    minZoom="13"
-    maxZoom="16"
-    class="application__map"
-    [zoom]="14"
-    [disableDefaultUI]="true"
-    [styles]="styles"
-    [restriction]="{latLngBounds: {north: map.lat + .05, south: map.lat - .05, west: map.lng -.05, east: map.lng + .05}}"
-  >
-    <agm-marker
-      [latitude]="map.lat"
-      [longitude]="map.lng"
-    ></agm-marker>
-      <ng-container *ngIf="contacts$ | async as contacts">
-        <agm-polygon
-          *ngFor="let contract of contacts;let i = index; trackBy: trackByFn"
-          [strokeColor]="i === 0 ? 'rgba(27,34,52,.3)' : 'rgba(27,34,52,.3)'"
-          [fillColor]="i === 0 ? 'rgba(27,34,52,.5)' : 'rgba(27,34,52,.1)'"
-          [paths]="contract.point | hexagon"
-        >
-          <agm-polygon
-            *ngIf="contract.warning"
-            [strokeColor]="contract.warning === 'police'? 'rgba(0,0,255,.3)' : contract.warning === 'emergency' ? 'rgba(255,0,0,.3)' : 'rgba(255,200,0,.3)'"
-            [fillColor]="contract.warning === 'police'? 'rgba(0,0,255,.1)' : contract.warning === 'emergency' ? 'rgba(255,0,0,.1)' : 'rgba(255,200,0,.1)'"
-            [paths]="contract.point | hexagon: 100"
-          ></agm-polygon>
-          </agm-polygon>
-      </ng-container>
+    <agm-map
+            (mapReady)="mapReady($event)"
+            minZoom="15"
+            maxZoom="17"
+            class="application__map"
+            [zoom]="16"
+            [disableDefaultUI]="true"
+            [styles]="styles"
+            [restriction]="{latLngBounds: {north: map.lat + .05, south: map.lat - .05, west: map.lng -.05, east: map.lng + .05}}"
+    >
+
+        <agm-marker
+                [latitude]="map.lat"
+                [longitude]="map.lng"
+        ></agm-marker>
+
+        <ng-container *ngIf="contacts$ | async as contacts">
+            <agm-polygon
+                    *ngFor="let contract of contacts;let i = index; trackBy: trackByFn"
+                    [strokeColor]="i === 0 ? 'rgba(255,255,255,.16)' : 'rgba(255,255,255,.4)'"
+                    [fillColor]="i === 0 ? 'rgba(0,0,0,0)' : 'rgba(27,34,52,.1)'"
+                    [paths]="contract.point | hexagon"
+            >
+                <agm-polygon
+                        *ngIf="contract.warning"
+                        [strokeColor]="contract.warning === 'police'? 'rgba(0,0,255,.3)' : contract.warning === 'emergency' ? 'rgba(255,0,0,.3)' : 'rgba(255,200,0,.3)'"
+                        [fillColor]="contract.warning === 'police'? 'rgba(0,0,255,.1)' : contract.warning === 'emergency' ? 'rgba(255,0,0,.1)' : 'rgba(255,200,0,.1)'"
+                        [paths]="contract.point | hexagon: 100"
+                ></agm-polygon>
+            </agm-polygon>
+        </ng-container>
     </agm-map>
 
     <div class="application__info">
@@ -48,17 +50,11 @@
       <button class="application__actions-btn" (click)="createEmergencySituation('protocol-police')" mat-button mat-raised-button color="warn">Robbery</button>
     </div>
 
-<!--    <div class="application__control">-->
-<!--      <div (click)="setDerection({x: -1})" class="application__control-arrow">⬅️</div>-->
-<!--      <div (click)="setDerection({x: 1})" class="application__control-arrow">➡️</div>-->
-<!--      <div (click)="setDerection({y: 1})" class="application__control-arrow">⬆️</div>-->
-<!--      <div (click)="setDerection({y: -1})" class="application__control-arrow">⬇️</div>-->
-<!--    </div>-->
-
     <div class="application__control" id="joystick-main">
       <div class="joystick-base"></div>
     </div>
 
-
-
+    <div class="application__certificates">
+        <a class="application__actions-btn" [routerLink]="constants.routes.listing | route" mat-button mat-raised-button color="warn">Get a certificate</a>
+    </div>
 </div>
