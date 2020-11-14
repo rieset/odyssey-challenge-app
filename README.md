@@ -3,6 +3,25 @@
 [![Linter](https://github.com/rieset/waves-grants/workflows/Linter/badge.svg)](https://github.com/rieset/waves-grants/actions)
 [![Testing](https://github.com/rieset/waves-grants/workflows/Testing/badge.svg)](https://github.com/rieset/waves-grants/actions)
 
+## Base user role
+
+![Image1](https://raw.githubusercontent.com/rieset/odyssey-challenge-app/master/design/default-1.png)
+![Image1](https://raw.githubusercontent.com/rieset/odyssey-challenge-app/master/design/default-2.png)
+
+## Choose certificate
+
+![Image1](https://raw.githubusercontent.com/rieset/odyssey-challenge-app/master/design/cert-1.png)
+![Image1](https://raw.githubusercontent.com/rieset/odyssey-challenge-app/master/design/cert-2.png)
+![Image1](https://raw.githubusercontent.com/rieset/odyssey-challenge-app/master/design/cert-3.png)
+![Image1](https://raw.githubusercontent.com/rieset/odyssey-challenge-app/master/design/cert-4.png)
+
+## Gameplay
+
+![Image1](https://raw.githubusercontent.com/rieset/odyssey-challenge-app/master/design/gameplay-1.png)
+![Image1](https://raw.githubusercontent.com/rieset/odyssey-challenge-app/master/design/gameplay-2.png)
+![Image1](https://raw.githubusercontent.com/rieset/odyssey-challenge-app/master/design/gameplay-3.png)
+![Image1](https://raw.githubusercontent.com/rieset/odyssey-challenge-app/master/design/gameplay-4.png)
+
 ## Modules
 
 Create component in application
