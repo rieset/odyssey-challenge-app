@@ -126,10 +126,34 @@
 ::ng-deep .hexagon-bg {
   position: relative;
 
-  svg {
+  &:not(.hexagon-bg--multiple) {
+    svg {
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &--multiple {
+    align-items: center;
+    display: flex;
+    justify-content: center;
     left: 50%;
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
+
+    svg {
+      display: block;
+      height: auto;
+      margin-left: em(10);
+      width: rem(80);
+
+      &:last-child {
+        margin-left: 0;
+      }
+    }
   }
+
 }

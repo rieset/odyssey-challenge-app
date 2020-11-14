@@ -20,6 +20,7 @@ export class GeoService {
   private apiGetGeoContracts = new URL('/geo/contracts', this.api.geo)
   private apiRegisterOnContract = new URL('/geo/register', this.api.geo)
   private apiEmergencyOnContract = new URL('/geo/emergency', this.api.geo)
+  private apiWarningOnContract = new URL('/geo/warning', this.api.geo)
 
   private geoContracts$: Observable<GeoContractModel[]> = this.http.get<GeoContractModel[]>(this.apiGetGeoContracts.href, {
     headers: {
@@ -68,6 +69,40 @@ export class GeoService {
     }`, `send`)
 
     this.http.post<void>(this.apiEmergencyOnContract.href + '/' + contract.address, {
+      emergencyUuid: uuid,
+      privateData: message
+    }, {
+      headers: {
+        accept: 'application/json; charset=utf-8'
+      }
+    }).subscribe((data) => {
+      subject.next(data)
+    })
+
+    return subject
+  }
+
+  public warningProtocol (contract: GeoContractUpdatedModel, position: ApplicationPositionModel, protocol: string) {
+    const subject  = new Subject()
+    // @ts-ignore
+    const encrypt = new JSEncrypt()
+    encrypt.setPublicKey(contract.publicKeyOperators)
+    const message = encrypt.encrypt(JSON.stringify({
+      user: 'John Dow',
+      lat: position.lat,
+      lng: position.lng,
+      protocol,
+      certificate: []
+    }))
+
+    const uuid = generateAddress()
+
+    this.logService.apply(`Emergency encrypted data with public key for operator<br/>{
+      emergencyUuid: ${uuid},
+      privateData: '...Encrypted message...'
+    }`, `send`)
+
+    this.http.post<void>(this.apiWarningOnContract.href + '/' + contract.address, {
       emergencyUuid: uuid,
       privateData: message
     }, {

@@ -141,18 +141,18 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   warning (protocol: string){
-    // combineLatest([
-    //   this.applicationService.position,
-    //   this.contacts$
-    // ])
-    //   .pipe(take(1))
-    //   .subscribe(([position, contracts]) => {
-    //     if (contracts && contracts[0]) {
-    //       this.geoService.activationProtocol(contracts[0], position, protocol)
-    //     } else {
-    //
-    //     }
-    //   })
+    combineLatest([
+      this.applicationService.position,
+      this.contacts$
+    ])
+      .pipe(take(1))
+      .subscribe(([position, contracts]) => {
+        if (contracts && contracts[0]) {
+          this.geoService.warningProtocol(contracts[0], position, protocol)
+        } else {
+
+        }
+      })
   }
 
 }
