@@ -39,7 +39,7 @@ class Joystick {
 
     this.direction$.subscribe((val: Coords) => {
       this.stickDirection.style.transform = `rotate(${this.getAngle(val)}deg) scale(1)`;
-      if( val.x === 0 && val.y === 0){
+      if ( val.x === 0 && val.y === 0){
         this.stickDirection.style.transform = `scale(0)`;
       }
     })
