@@ -22,7 +22,7 @@ export class EntityPageComponent implements OnInit {
 
   ngOnInit (): void {}
 
-  getCertificate(certificate: string) {
+  getCertificate (certificate: string) {
     this.transactionService.create(certificate);
   }
 }
