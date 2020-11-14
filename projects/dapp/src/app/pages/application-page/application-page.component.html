@@ -56,21 +56,6 @@
         </ng-container>
     </agm-map>
 
-    <div class="application__info">
-      <div>
-        Map coords: {{ map.lat}} , {{ map.lng }}
-      </div>
-      <div class="application__info-speed">
-        Speed: {{ speed$ | async | number:'1.1-1' }} km/h
-      </div>
-      <div class="application__info-movement">
-        Movement: {{ movement$ | async }}
-      </div>
-      <div class="application__info-direction">
-        Direction: {{direction$ | async | json }}
-      </div>
-    </div>
-
     <div class="application__actions" *ngIf="contacts$ | async as contacts">
       <button class="application__actions-btn large"
         (click)="createEmergencySituation('protocol-emergency')"

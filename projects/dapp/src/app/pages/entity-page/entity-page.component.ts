@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 import { ENTITY, ENTITY_PAGE_PROVIDERS } from '@pages/entity-page/entity-page.providers'
 import { APP_CONSTANTS, AppConstantsInterface } from '@constants'
 import { LoadingWrapperModel } from '@libs/loading-wrapper/loading-wrapper'
-import {ContractCertificateModel} from '@services/contract/contract.model';
-import {TransactionService} from '@services/transaction/transaction.service';
+import { ContractCertificateModel } from '@services/contract/contract.model';
+import { TransactionService } from '@services/transaction/transaction.service';
 
 @Component({
   selector: 'app-entity-page',
