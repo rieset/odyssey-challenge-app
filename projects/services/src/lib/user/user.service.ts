@@ -1,6 +1,5 @@
 import {Inject, Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {generateAddress} from '@libs/utils/utils.library';
 import {UserModel} from '@services/user/user.model';
 import {WINDOW} from '@services/window';
 import { randomSeed, address } from '@waves/ts-lib-crypto';
@@ -11,8 +10,11 @@ import {ContractService} from '@services/contract/contract.service';
 })
 export class UserService {
 
+  private seed = randomSeed();
+
   private user$: BehaviorSubject<UserModel> = new BehaviorSubject({
-    address: this.window.localStorage.getItem('address') || generateAddress(),
+    seed: this.window.localStorage.getItem('seed') || this.seed,
+    address: this.window.localStorage.getItem('address') || address(this.seed, 'T')
   })
 
   constructor (
