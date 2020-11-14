@@ -28,6 +28,8 @@ import {GeoService} from '@services/geo/geo.service'
 import { styles } from './application-page.map'
 import {isPlatformBrowser} from '@angular/common';
 import Joystick from './joystick'
+import {APP_CONSTANTS, AppConstantsInterface} from "@constants";
+
 
 export interface MapCoords extends ApplicationPositionModel {
   mapLat: number
@@ -76,6 +78,7 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
       private geoService: GeoService,
       private cdr: ChangeDetectorRef,
       @Inject(PLATFORM_ID) platformId: object,
+      @Inject(APP_CONSTANTS) public constants: AppConstantsInterface,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
