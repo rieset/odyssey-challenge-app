@@ -16,9 +16,9 @@ import {
 export class TransactionService {
   private faucet = 'junior describe disorder harsh broom detect index tonight tray method miracle whisper master since impose';
 
-  constructor() {}
+  constructor () {}
 
-  public async create() {
+  public async create () {
     const userSeed = randomSeed();
     const userAddress = address(userSeed, 'T');
 
