@@ -28,15 +28,22 @@
 
   &__actions {
     bottom: $padding;
+    display: flex;
     left: $padding;
     pointer-events: none;
     position: absolute;
     right: $padding;
     text-align: center;
 
+
     &-btn {
-      margin: 0 10px;
+      flex: 1 1 100%;
+      margin: 0 5px;
       pointer-events: all;
+
+      &-icon {
+        margin-right: em(5);
+      }
     }
   }
 
@@ -49,7 +56,7 @@
     top: 50%;
   }
 
-  &__certificates {
+  &__top-controls {
     left: 10px;
     position: absolute;
     right: 10px;

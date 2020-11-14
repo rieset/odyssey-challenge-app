@@ -7,6 +7,7 @@ export interface GeoContractModel {
   publicKeyOperators: string
   warning: string
   point: {lat: number, lng: number}
+  emergency: string
 }
 
 export interface GeoContractUpdatedModel extends GeoContractModel {

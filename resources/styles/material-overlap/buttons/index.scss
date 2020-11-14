@@ -1,0 +1,87 @@
+.mat-body {
+  .mat-button-base {
+    line-height: 1;
+    padding: em(10) em(24);
+    transition: all 0.15s ease-in-out;
+
+    .mat-button-wrapper {
+      font-size: em(16);
+      line-height: calc(24/16);
+    }
+
+    &.small {
+      font-weight: 500;
+      padding: em(6) em(16);
+
+      .mat-button-wrapper {
+        font-size: em(14);
+        line-height: calc(20/14);
+      }
+    }
+
+    &.large {
+      padding: em(16) em(32);
+    }
+
+    .mat-button-icon {
+      &--left {
+        margin-right: em(5);
+      }
+    }
+  }
+
+  .mat-flat-button,
+  .mat-raised-button,
+  .mat-fab,
+  .mat-mini-fab {
+    &.mat-primary {
+      background-image: linear-gradient(to right, #00d2ff 0%, #3a7bd5 50%, #00d2ff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+      background-position: 0% 0%;
+      background-repeat: no-repeat;
+      background-size: 200% 100%;
+
+      &:hover {
+        background-position: 100% 0%;
+      }
+    }
+
+    &.mat-flat-gray {
+      background: #48597f;
+      color: #fff;
+
+      &:hover {
+        background: darken(#48597f, 15%);
+      }
+    }
+
+    &.mat-secondary {
+      background: rgba(#fff, 0.16);
+
+      &:hover {
+        background: rgba(#fff, 0.24);
+      }
+    }
+
+    &.with-arrow {
+      align-items: center;
+      display: inline-flex;
+      justify-content: center;
+
+      &::after {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none'%3E%3Cpath d='M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M12 16l4-4-4-4M8 12h8' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        content: '';
+        height: em(24);
+        margin-left: em(8);
+        width: em(24);
+      }
+    }
+  }
+
+  //.mat-stroked-button{
+  //
+  //}
+}
+
