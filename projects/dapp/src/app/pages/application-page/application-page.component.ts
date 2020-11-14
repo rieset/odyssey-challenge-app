@@ -50,8 +50,6 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
   private gMap$: Subject<GoogleMapsAPIWrapper> = new Subject()
 
   @ViewChild('joystickNode') joystickNode: ElementRef | undefined;
-  @ViewChild('AgmPolygonSectors') agmPolygonSectors: any;
-
 
   public contacts$ = this.applicationService.contracts$.pipe(tap((data) => {}), publishReplay(1), refCount())
 
@@ -135,6 +133,7 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
     .subscribe(([position, contracts]) => {
       if (contracts && contracts[0]) {
         this.geoService.activationProtocol(contracts[0], position, protocol)
+        console.log('contracts', contracts);
       } else {
 
       }
