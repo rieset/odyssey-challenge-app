@@ -2,9 +2,11 @@ import { Inject, Injectable } from '@angular/core'
 import { Signer, IUserData } from '@waves/signer/'
 import Provider from '@waves.exchange/provider-web'
 import { API, AppApiInterface } from '@constants'
-import { SignerUser } from './signer.model'
+import { SignerInvokeArgs, SignerUser } from './signer.model'
 import { from, Observable, Subject } from 'rxjs'
 import { publishReplay, refCount } from 'rxjs/operators'
+import { UserService } from '@services/user/user.service'
+import { IWithApiMixin, IInvokeScriptTransaction } from '@waves/ts-types'
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +28,7 @@ export class SignerService {
       // Specify URL of the node on Testnet
       NODE_URL: api.nodes
     })
-    this.signer.setProvider(new Provider('https://testnet.waves.exchange/signer/'))
+    this.signer.setProvider(new Provider(api.signer))
   }
 
   public login (): Observable<Observable<SignerUser>> {
@@ -46,5 +48,17 @@ export class SignerService {
 
   public logout (): Observable<void> {
     return from(this.signer.logout())
+  }
+
+  // @ts-ignore
+  public invoke (command: string, args: SignerInvokeArgs[]): Promise<[IInvokeScriptTransaction<string | number> & IWithApiMixin]> {
+    return this.signer.invoke({
+      dApp: this.api.contractAddress,
+      call: {
+        function: command,
+        // @ts-ignore
+        args
+      }
+    }).broadcast()
   }
 }

@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
+import {broadcast, IInvokeScriptParams, invokeScript, transfer } from '@libs/waves-transactions/dist';
+import { UserService } from '@services/user/user.service';
 import { randomSeed, address } from '@waves/ts-lib-crypto';
-import {
-  alias, broadcast, burn, cancelLease, data, exchange,
-  invokeScript, issue, lease, massTransfer, reissue,
-  setAssetScript, setScript, sponsorship, transfer, updateAssetInfo,
-} from '@waves/waves-transactions';
-import {
-  IInvokeScriptParams,
-  TTypedData,
-} from '@waves/waves-transactions/src/transactions';
+import {map, switchMap, take} from 'rxjs/operators';
+import {UserModel} from '@services/user/user.model';
+import { Router } from '@angular/router';
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,45 +13,50 @@ import {
 export class TransactionService {
   private faucet = 'junior describe disorder harsh broom detect index tonight tray method miracle whisper master since impose';
 
-  constructor () {}
+  constructor (
+      private userService: UserService,
+      private router: Router
+  ) {}
 
-  public async create () {
+  public async create (certificateAddress: string) {
     const userSeed = randomSeed();
     const userAddress = address(userSeed, 'T');
 
     const signedTranferViaPrivateKey = transfer({
       recipient: userAddress,
       amount: 2000000,
-      chainId: 'T',
       feeAssetId: null
     }, this.faucet)
 
-    await broadcast(signedTranferViaPrivateKey, 'https://nodes-testnet.wavesnodes.com').then(resp => console.log('transfer', resp))
+    console.log('Translate');
 
-    console.log('Random address', userAddress);
-    console.log('Random seed', userSeed);
+    this.userService.user.pipe(take(1)).subscribe((user) => {
+      broadcast(signedTranferViaPrivateKey, 'https://nodes-testnet.wavesnodes.com')
+      .then(() => {
+        console.log('user', user);
 
-    setTimeout(() => {
+        setTimeout(() => {
+          const params = {
+            call: {
+              args: [{ type: 'string', value: certificateAddress },
+                { type: 'string', value: user.address }],
+              function: 'requestCertificate',
+            },
+            payment: [],
+            dApp: '3Mvbw1Sx9xtM6akJrBPorkPpp4B3sJRFPFX',
+            chainId: 'T',
+            fee: 500000,
+            feeAssetId: null
+          } as IInvokeScriptParams
 
-      const params = {
-        call: {
-          args: [{ type: 'string', value: 'C8LqSJUsxsSbyfd8ytmkWLyoVNUonWvKH2cQfgf9hPyf' },
-            { type: 'string', value: 'DETAILS (for example, link to pdf)' }],
-          function: 'requestCertificate',
-        },
-        payment: [],
-        dApp: '3Mvbw1Sx9xtM6akJrBPorkPpp4B3sJRFPFX',
-        chainId: 'T',
-        fee: 500000,
-        feeAssetId: null
-      } as IInvokeScriptParams
+          console.log('use -->', user);
+          const signedInvokeScriptTx = invokeScript(params, userSeed)
+          return broadcast(signedInvokeScriptTx, 'https://nodes-testnet.wavesnodes.com')
+        }, 1000)
+      }).then(() => {
+        this.router.navigate(['/'])
+      })
+    })
 
-      const signedInvokeScriptTx = invokeScript(params, userSeed)
-      broadcast(signedInvokeScriptTx, 'https://nodes-testnet.wavesnodes.com').then(resp => console.log(resp))
-
-
-    }, 1000)
-
-    console.log('finish');
   }
 }

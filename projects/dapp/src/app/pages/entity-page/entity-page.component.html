@@ -1,8 +1,14 @@
 <div class="container">
     <a [routerLink]="constants.routes.listing | route">{{ 'app.navigation.back' | transloco }}</a>
 
-    <div class="entity-page" *ngIf="entity.data$ | async as grant; else loadingOrErrorTemplate">
-        <ui-entity [grant]="grant"></ui-entity>
+    <div class="entity-page" *ngIf="entity.data$ | async as entity; else loadingOrErrorTemplate">
+        <ui-entity [entity]=" entity"></ui-entity>
+
+        <button
+                class="application__actions-btn"
+                (click)="getCertificate(entity.id)"
+                mat-button mat-raised-button color="warn"
+        >Emergency situation</button>
     </div>
 </div>
 

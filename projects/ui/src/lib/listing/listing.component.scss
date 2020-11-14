@@ -1,9 +1,9 @@
-@import '../../../../../resources/styles/index';
+@import 'variables';
 
+.listing {
+  padding: 0.5em 1em;
 
-h1 {
-  @include text-title(h1);
+  &__item {
+    background: #f2f2f5;
+  }
 }
-
-.btn-container {
-  @include btn-container(); }

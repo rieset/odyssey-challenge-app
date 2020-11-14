@@ -12,6 +12,7 @@ export interface AppConstantsInterface {
 export interface AppApiInterface {
   nodes: string
   rest: string
+  signer: string
   contractAddress: string
   geo: string
 }

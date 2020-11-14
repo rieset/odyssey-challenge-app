@@ -1,9 +1,7 @@
 <div class="entity">
+    <h1>{{ entity?.title?.value }}</h1>
 
-    <div class="entity__title">{{ grant?.title?.value }}</div>
-    <div class="entity__reward">{{ grant?.reward?.value }}</div>
-    <div class="entity__reward">{{ grant?.status?.value }}</div>
-
-
-    <pre>{{ grant | json }}</pre>
+    <div>
+        {{ entity?.description?.value }}
+    </div>
 </div>

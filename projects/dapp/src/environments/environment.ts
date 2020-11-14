@@ -10,9 +10,8 @@ export const environment = {
   apis: {
     nodes: 'https://nodes-testnet.wavesnodes.com',
     rest: 'https://nodes-testnet.wavesnodes.com',
-    // contractAddress: '3MvqnYLwBErxGtKzeEjgWgr2RXgniokicR2'
-    contractAddress: '3N1eyWNffhxPCmYBWBdnWbhmAVAVjkTEqY5',
-
+    signer: 'https://testnet.waves.exchange/signer/',
+    contractAddress: '3Mvbw1Sx9xtM6akJrBPorkPpp4B3sJRFPFX',
     geo: 'http://localhost:3000',
     googleMaps: 'AIzaSyACN_pRwBJA4Vqb3PMOCXTJCXnUtbeTXgU'
   },
@@ -26,7 +25,7 @@ export const environment = {
   routing: {
     application: '',
     listing: 'listing',
-    entity: 'entity/:entityId',
+    entity: 'listing/:entityId',
     about: 'about',
     applyGrant: 'apply-grant/:entityId',
     setting: 'settings',
