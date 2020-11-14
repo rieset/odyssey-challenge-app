@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class TransactionService {
-  [x: string]: any;
   private faucet = 'junior describe disorder harsh broom detect index tonight tray method miracle whisper master since impose';
 
   constructor (
