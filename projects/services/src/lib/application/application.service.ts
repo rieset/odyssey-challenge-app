@@ -27,7 +27,7 @@ export class ApplicationService {
 
   private color = `rgb(${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)})`
 
-  private updateInterval = 1000
+  private updateInterval = 200
 
   private zoom = 1000
 
@@ -53,19 +53,7 @@ export class ApplicationService {
         y: this.getDirectionOnAxis()
       })
 
-  public speed$: Observable<ApplicationSpeedModel> = this.movement$.pipe(map((movement) => {
-    if (movement === 'walking') {
-      return (Math.random() * 4) + 3
-    }
-
-    if (movement === 'run') {
-      return Math.random() * 10 + 5
-    }
-
-    return 0
-  }), map((speed) => {
-    return (speed / 60 / 60) * 1000 // meter in second
-  }))
+  public speed$: BehaviorSubject<ApplicationSpeedModel> = new BehaviorSubject(0);
 
   private position$: BehaviorSubject<ApplicationPositionModel> = new BehaviorSubject({
     lat: this.getDefaultLat(),

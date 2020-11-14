@@ -1,9 +1,10 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, Inject,
   OnDestroy,
-  OnInit,
+  OnInit, PLATFORM_ID,
 } from '@angular/core'
 import { ApplicationService } from '@services/application/application.service'
 import {
@@ -25,7 +26,8 @@ import {AgmMap, GoogleMapsAPIWrapper } from '@agm/core'
 import {DestroyedSubject} from '@libs/decorators/destroyed-subject.decorator'
 import {GeoService} from '@services/geo/geo.service'
 import { styles } from './application-page.map'
-
+import {isPlatformBrowser} from '@angular/common';
+import Joystick from './joystick'
 
 export interface MapCoords extends ApplicationPositionModel {
   mapLat: number
@@ -38,7 +40,7 @@ export interface MapCoords extends ApplicationPositionModel {
   styleUrls: ['./application-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ApplicationPageComponent implements OnInit, OnDestroy {
+export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @DestroyedSubject()
   private destroyed$!: Subject<null>
@@ -66,14 +68,18 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
   }))
   public readonly movement$ = this.applicationService.movement$.pipe(takeUntil(this.destroyed$))
   public readonly direction$ = this.applicationService.direction$.pipe(takeUntil(this.destroyed$))
+  isBrowser: boolean;
 
   constructor (
+      private joystick: Joystick,
       private applicationService: ApplicationService,
       private geoService: GeoService,
-      private cdr: ChangeDetectorRef
+      private cdr: ChangeDetectorRef,
+      @Inject(PLATFORM_ID) platformId: object,
   ) {
-
+    this.isBrowser = isPlatformBrowser(platformId);
   }
+
 
   ngOnInit (): void {
     combineLatest([this.gMap$, this.map$])
@@ -81,6 +87,12 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
     .subscribe(([gMap, position]) => {
       gMap.setCenter(position)
     })
+  }
+
+  ngAfterViewInit (){
+    if (this.isBrowser) {
+      this.joystick = new Joystick (document.getElementById('joystick-base') as HTMLElement, this.applicationService);
+    }
   }
 
   trackByFn (index: number) {
@@ -91,7 +103,9 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
     this.gMap$.next(gMap)
   }
 
-  ngOnDestroy () {}
+  ngOnDestroy () {
+    this.joystick.destroy();
+  }
 
   createEmergencySituation (protocol: string) {
     combineLatest([
