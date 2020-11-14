@@ -6,8 +6,80 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <style>
+    @keyframes loader-background {
+      50% {
+        box-shadow: 0 0 0 0 #20283E inset,
+        0 -50vh 0 0 #1EA6EA inset,
+        -100vw 0 0 0 #1E273E inset;
+      }
+    }
+
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      background: #20283E;
+      background: linear-gradient(to right, #20283E, #1EA6EA);
+      opacity: 1;
+      transition: opacity .5s ease;
+      box-shadow: -100vw 0 0 0 #20283E inset;
+      animation: loader-background 4s infinite alternate;
+    }
+    .loader__logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      margin-left: -45px;
+      margin-top: -40px;
+    }
+    .body--ready .loader {
+      display: none;
+    }
+    .body--loaded .loader {
+      opacity: 0;
+    }
+  </style>
+  <script>
+    document.addEventListener('load-content', function() {
+      console.log('Load');
+      document.getElementsByTagName('body')[0].classList.add('body--loaded');
+      setTimeout(() => {
+        document.getElementsByTagName('body')[0].classList.add('body--ready');
+      }, 500)
+    })
+  </script>
 </head>
 <body class="mat-body mat-typography body--theme-light">
+
+  <div class="loader">
+    <div class="loader__logo">
+      <svg width="90" height="64" viewBox="0 0 45 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0)">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M42.8595 5.01975C42.4251 4.3923 41.9425 3.81311 41.4116 3.28219C40.8806 2.75127 40.3014 2.26862 39.674 1.83423C38.226 0.917186 36.6815 0.338 35.0405 0.0966732C31.6619 -0.385981 28.1386 0.675859 25.5322 3.28219L9.65289 19.1615C8.78411 20.0303 8.78411 21.4783 9.65289 22.347C10.5217 23.2158 11.9696 23.2158 12.8384 22.347L28.6695 6.41945C30.7449 4.34403 33.8339 3.90964 36.3437 5.11628C37.0194 5.40587 37.6468 5.84026 38.226 6.41945C38.757 6.99863 39.1913 7.62608 39.5292 8.3018C40.7358 10.8116 40.3014 13.9006 38.226 15.976L31.855 22.347C35.2336 22.8297 38.8052 21.7679 41.4116 19.1615C44.0179 16.6035 45.0797 13.0318 44.5971 9.65323C44.3558 8.01221 43.7766 6.41945 42.8595 5.01975ZM35.0886 12.8388C35.9573 11.97 35.9573 10.522 35.0886 9.65323C34.1715 8.78445 32.7718 8.78445 31.903 9.65323L16.0237 25.5326C13.9483 27.608 10.8593 28.0424 8.3495 26.8357C7.67378 26.5461 7.04633 26.1118 6.46714 25.5326C5.93623 24.9534 5.50184 24.3259 5.16398 23.6502C3.95734 21.1887 4.39173 18.0514 6.46714 15.976L12.8382 9.65323C9.4596 9.17058 5.93623 10.2324 3.32989 12.8388C0.723557 15.4451 -0.338282 19.0167 0.144372 22.3953C0.385699 23.9881 0.964885 25.5808 1.88193 26.9805C2.31632 27.608 2.79897 28.1872 3.32989 28.7181C3.86081 29.2973 4.44 29.7799 5.06745 30.166C6.46715 31.0831 8.01164 31.6623 9.65267 31.9036C13.0312 32.3863 16.6029 31.3244 19.161 28.7181L35.0886 12.8388Z" fill="url(#paint0_linear)"></path>
+        </g>
+        <defs>
+          <linearGradient id="paint0_linear" x1="0.03125" y1="16.0001" x2="44.7102" y2="16.0001" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#00D2FF"/>
+            <stop offset="1" stop-color="#3A7BD5"/>
+          </linearGradient>
+          <clipPath id="clip0">
+            <rect width="44.6938" height="32" fill="white"/>
+          </clipPath>
+        </defs>
+      </svg>
+    </div>
+  </div>
+
   <app-root></app-root>
 </body>
 </html>

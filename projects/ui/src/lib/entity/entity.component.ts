@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { ContractGrantModel } from '@services/contract/contract.model'
+import {ContractCertificateModel } from '@services/contract/contract.model'
 
 @Component({
   selector: 'ui-entity',
@@ -7,7 +7,7 @@ import { ContractGrantModel } from '@services/contract/contract.model'
   styleUrls: ['./entity.component.scss']
 })
 export class EntityComponent implements OnInit {
-  @Input() grant: ContractGrantModel = {}
+  @Input() entity: ContractCertificateModel = {}
 
   constructor () {}
 

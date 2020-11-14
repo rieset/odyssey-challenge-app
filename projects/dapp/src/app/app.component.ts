@@ -3,6 +3,8 @@ import {isPlatformBrowser} from '@angular/common';
 import {fromEvent, Subject} from 'rxjs';
 import {debounceTime, takeUntil} from 'rxjs/operators';
 import {WINDOW} from '@services/window';
+import { ContractService } from '@services/contract/contract.service';
+import {PreloaderService} from '@services/preloader/preloader.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +17,10 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor (
     @Inject(PLATFORM_ID) platformId: object,
     @Inject(WINDOW) public window: Window,
+    private contractService: ContractService,
+    private preloaderService: PreloaderService,
   ) {
+    this.preloaderService.load()
     this.isBrowser = isPlatformBrowser(platformId);
   }
   updateCssVariableVh () {

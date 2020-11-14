@@ -9,14 +9,18 @@ import {
   tap
 } from 'rxjs/operators'
 import { API, AppApiInterface } from '@constants'
-import { BehaviorSubject, Observable, Subject } from 'rxjs'
+import { BehaviorSubject, from, Observable, Subject } from 'rxjs'
 import {
-  ContractDataModel, ContractGrantModel,
+  ContractCertificateModel,
+  ContractDataModel,
   ContractRawData,
   ContractRawDataEntityId,
   ContractRawDataNumber,
   ContractRawDataString
 } from './contract.model'
+import { PreloaderService } from '@services/preloader/preloader.service'
+import { SignerService } from '@services/signer/signer.service'
+import { IInvokeScriptTransaction, IWithApiMixin } from '@waves/ts-types'
 
 @Injectable({
   providedIn: 'root'
@@ -25,10 +29,6 @@ export class ContractService {
   private apiGetAddressData = new URL('/addresses/data/' + this.api.contractAddress, this.api.rest)
 
   private contractRefresh$: Subject<null> = new Subject()
-
-  // @ts-ignore
-  private contractState$: BehaviorSubject<ContractDataModel> = new BehaviorSubject(
-    {})
 
   private readonly contractState = this.http.get<Observable<ContractRawData>>(this.apiGetAddressData.href, {
     headers: {
@@ -39,10 +39,6 @@ export class ContractService {
     repeatWhen(() => this.contractRefresh$),
     map((data: ContractRawData) => {
       return this.prepareData(data)
-    }),
-    switchMap((data: ContractDataModel) => {
-      this.contractState$.next(data)
-      return this.contractState$.pipe(takeUntil(this.contractRefresh$))
     }),
     tap((data) => {
       console.log('Origin contract data :: projects/services/src/lib/contract/contract.service.ts: 47\n\n', data)
@@ -56,29 +52,26 @@ export class ContractService {
     refCount()
   )
 
-  public readonly streamTasks: Observable<ContractGrantModel[]> = this.contractState.pipe(map((contract) => {
-    return Object.keys(contract?.tasks).map((entityKey: string) => {
+  public readonly streamTasks: Observable<ContractCertificateModel[]> = this.contractState.pipe(map((contract) => {
+    if (!contract?.template) {
+      return []
+    }
+
+    return Object.keys(contract?.template).map((entityKey: string) => {
       return {
-        ...contract?.tasks[entityKey],
+        ...contract?.template[entityKey],
         id: entityKey
       }
     })
   }))
 
-  public readonly streamDAO = this.contractState.pipe(map((contract) => {
-    return Object.values(contract?.dao)
-  }))
-
-  public readonly streamWorkGroup = this.contractState.pipe(map((contract) => {
-    return Object.values(contract?.working)
-  }))
-
   constructor (
       private readonly http: HttpClient,
+      private readonly signerService: SignerService,
       @Inject(API) private readonly api: AppApiInterface
   ) {}
 
-  refresh () {
+  public refresh () {
     this.contractRefresh$.next(null)
   }
 
@@ -110,9 +103,66 @@ export class ContractService {
     }, {})
   }
 
-  public entityById (entityId: ContractRawDataEntityId): Observable<ContractGrantModel> {
+  public entityById (entityId: ContractRawDataEntityId): Observable<ContractCertificateModel> {
     return this.stream.pipe(map((data) => {
-      return data?.tasks[entityId]
+      return data?.template[entityId]
     }))
+  }
+
+  public createCertificate (title: string): Observable<[IInvokeScriptTransaction<string | number> & IWithApiMixin]> {
+    return from(this.signerService.invoke('proposeTemplate',
+      [{ type: 'string', value: title }]))
+  }
+
+  public certificateDescription (
+    templateId: string,
+    description: string,
+    author: string,
+    company: string,
+    link: string
+  ): Observable<[IInvokeScriptTransaction<string | number> & IWithApiMixin]> {
+    console.log('Update data', templateId, description, author, company, link)
+    return from(this.signerService.invoke('addTemplateDetails', [
+      { type: 'string', value: templateId },
+      { type: 'string', value: description },
+      { type: 'string', value: author },
+      { type: 'string', value: company },
+      { type: 'string', value: link }
+    ]))
+  }
+
+  public acceptCertificate (templateId: string): Observable<[IInvokeScriptTransaction<string | number> & IWithApiMixin]> {
+    return from(this.signerService.invoke('acceptTemplate', [
+      { type: 'string', value: templateId }
+    ]))
+  }
+
+  public voteForApplicant (
+    templateId: string,
+    applicantId: string,
+    voteValue: number
+  ): Observable<[IInvokeScriptTransaction<string | number> & IWithApiMixin]> {
+    return from(this.signerService.invoke('voteForApplicant', [
+      { type: 'string', value: templateId },
+      { type: 'string', value: applicantId },
+      { type: 'integer', value: voteValue }
+    ]))
+  }
+
+  public finishApplicantVoting (
+    templateId: string,
+    applicantId: string
+  ): Observable<[IInvokeScriptTransaction<string | number> & IWithApiMixin]> {
+    return from(this.signerService.invoke('voteForApplicant', [
+      { type: 'string', value: templateId },
+      { type: 'string', value: applicantId }
+    ]))
+  }
+
+  public requestCertificate (templateId: string, details: string): Observable<[IInvokeScriptTransaction<string | number> & IWithApiMixin]> {
+    return from(this.signerService.invoke('requestCertificate', [
+      { type: 'string', value: templateId },
+      { type: 'string', value: details }
+    ]))
   }
 }
