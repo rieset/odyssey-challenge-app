@@ -12,7 +12,7 @@ import {
   bufferCount,
   map, pairwise, startWith,
   switchMap,
-  take,
+  take, withLatestFrom,
 } from 'rxjs/operators'
 import {APP_CONSTANTS, AppConstantsInterface} from '@constants'
 import { GeoService } from '@services/geo/geo.service'
@@ -110,6 +110,19 @@ export class ApplicationService {
       }).subscribe(() => {
         this.alias = generateAddress()
         // this.cdr.markForCheck();
+      })
+    })
+
+    setInterval(() => {
+      const direction = this.direction$.getValue();
+      const position = this.position$.getValue();
+      const speed = this.speed$.getValue();
+      const lat = direction.y === 0 ? position.lat : position.lat + this.meterToLat(speed * (this.updateInterval / 1000) * direction.y)
+      const lng = direction.x === 0 ? position.lng : position.lng + this.meterToLng(speed * (this.updateInterval / 1000) * direction.x, lat)
+
+      this.position$.next({
+        lng,
+        lat
       })
     })
   }
