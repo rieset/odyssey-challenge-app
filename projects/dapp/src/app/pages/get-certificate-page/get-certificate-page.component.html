@@ -13,7 +13,14 @@
         class="get-certificate-page__categories"
         [ngClass]="{'active': this.chooseFormStatus.category.isActive}"
         [(ngModel)]="selectedCategory">
-        <mat-radio-button (focus)="chooseFormCategoryChange()" class="get-certificate-page__category" *ngFor="let category of categories" [value]="category">
+        <mat-radio-button
+          [disabled]="category !== '🔥 Firefighting'"
+          [checked]="category === '🔥 Firefighting'"
+          (focus)="chooseFormCategoryChange()"
+          class="get-certificate-page__category"
+          *ngFor="let category of categories"
+          [value]="category"
+        >
           {{category}}
         </mat-radio-button>
       </mat-radio-group>
@@ -30,7 +37,7 @@
           (focus)="this.chooseFormStatus.field.isActive = true"
           (blur)="chooseFormFieldChangeBlur()"
           matInput
-          placeholder="Enter your field"
+          placeholder="Enter your Qfield"
           value=""
         />
       </mat-form-field>
@@ -38,14 +45,27 @@
     <div class="get-certificate-page__steps">
       <span class="get-certificate-page__steps-item"></span>
     </div>
-    <button
-      (click)="chooseFormSubmitHandler()"
-      [disabled]="chooseForm.invalid || chooseFormIsLoading"
-      color="primary"
-      mat-flat-button
-      class="get-certificate-page__main-button"
-    >
-      Submit
-    </button>
+    <ng-container *ngIf="certs.data$ | async as list;">
+      <a
+        [routerLink]="constants.routes.entity | route: entity?.id"
+        class="listing__item"
+        *ngFor="let entity of list; trackBy: trackByFn"
+        color="primary"
+        mat-flat-button
+        class="get-certificate-page__main-button"
+      >
+        {{ entity.title.value }}
+      </a>
+    </ng-container>
+
+<!--    <button-->
+<!--      (click)="chooseFormSubmitHandler()"-->
+<!--      [disabled]="chooseForm.invalid || chooseFormIsLoading"-->
+<!--      color="primary"-->
+<!--      mat-flat-button-->
+<!--      class="get-certificate-page__main-button"-->
+<!--    >-->
+<!--      Submit-->
+<!--    </button>-->
   </div>
 </div>

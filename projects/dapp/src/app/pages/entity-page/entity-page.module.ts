@@ -6,6 +6,7 @@ import { EntityPageComponent } from './entity-page.component'
 import { TranslocoModule } from '@ngneat/transloco'
 import { PipesModule } from '@libs/pipes/pipes.module'
 import { EntityModule } from '@ui/entity/entity.module'
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [EntityPageComponent],
@@ -14,7 +15,8 @@ import { EntityModule } from '@ui/entity/entity.module'
     EntityPageRoutingModule,
     TranslocoModule,
     PipesModule,
-    EntityModule
+    EntityModule,
+    MatButtonModule
   ]
 })
 export class EntityPageModule { }
