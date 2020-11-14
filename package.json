@@ -37,6 +37,7 @@
     "@waves.exchange/provider-web": "^0.2.3",
     "@waves/signer": "^0.1.2",
     "@waves/ts-lib-crypto": "^1.4.3",
+    "agm-overlays": "^2.0.0",
     "dompurify": "^2.2.2",
     "include-media": "^1.4.9",
     "long": "4.0.0",
