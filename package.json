@@ -60,7 +60,6 @@
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.1",
     "@waves/ts-types": "^0.3.3",
-    "@waves/protobuf-serialization": "^1.2.4",
     "codelyzer": "^5.1.2",
     "husky": "^4.3.0",
     "jasmine-core": "~3.5.0",

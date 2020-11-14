@@ -103,7 +103,7 @@ class Joystick {
       this.normalize(this.currentPos.y) *
       this.normalize(this.currentPos.y)
     ) * 15 )
-    console.log('speed', this.applicationService.speed$.getValue());
+    // console.log('speed', this.applicationService.speed$.getValue());
   }
 
   getAngle (coords: Coords){

@@ -6,6 +6,7 @@ import { ApplicationPageComponent } from './application-page.component'
 import {AgmCoreModule} from '@agm/core'
 import {PipesModule} from '@libs/pipes/pipes.module'
 import {MatButtonModule} from '@angular/material/button'
+import { AgmOverlays } from 'agm-overlays'
 
 @NgModule({
   declarations: [ApplicationPageComponent],
@@ -13,6 +14,7 @@ import {MatButtonModule} from '@angular/material/button'
     CommonModule,
     ApplicationPageRoutingModule,
     AgmCoreModule,
+    AgmOverlays,
     PipesModule,
     MatButtonModule,
   ],

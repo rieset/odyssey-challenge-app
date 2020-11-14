@@ -1,38 +1,65 @@
 <div class="application" *ngIf="map$ | async as map" #agmMap>
-    <agm-map
-            (mapReady)="mapReady($event)"
-            minZoom="15"
-            maxZoom="17"
-            class="application__map"
-            [zoom]="16"
-            [disableDefaultUI]="true"
-            [styles]="styles"
-            [restriction]="{latLngBounds: {north: map.lat + .05, south: map.lat - .05, west: map.lng -.05, east: map.lng + .05}}"
+  <agm-map
+      (mapReady)="mapReady($event)"
+      class="application__map"
+      [zoom]="16"
+      minZoom="16"
+      maxZoom="16"
+      [scrollwheel]="false"
+      [disableDefaultUI]="true"
+      [styles]="styles"
+      [restriction]="{latLngBounds: {north: map.lat + .05, south: map.lat - .05, west: map.lng -.05, east: map.lng + .05}}"
     >
-
         <agm-marker
-                [latitude]="map.lat"
-                [longitude]="map.lng"
+          [latitude]="map.lat"
+          [longitude]="map.lng"
         ></agm-marker>
 
         <ng-container *ngIf="contacts$ | async as contacts">
+
             <agm-polygon
-                    *ngFor="let contract of contacts;let i = index; trackBy: trackByFn"
-                    [strokeColor]="i === 0 ? 'rgba(255,255,255,.16)' : 'rgba(255,255,255,.4)'"
-                    [fillColor]="i === 0 ? 'rgba(0,0,0,0)' : 'rgba(27,34,52,.1)'"
-                    [paths]="contract.point | hexagon"
+              *ngFor="let contract of contacts;let i = index; trackBy: trackByFn"
+              [strokeColor]="i === 0 ? 'rgba(255,255,255,.16)' : 'rgba(255,255,255,.4)'"
+              [fillColor]="i === 0 ? 'rgba(0,0,0,0)' : 'rgba(27,34,52,.1)'"
+              [paths]="contract.point | hexagon"
             >
-                <agm-polygon
-                        *ngIf="contract.warning"
-                        [strokeColor]="contract.warning === 'police'? 'rgba(0,0,255,.3)' : contract.warning === 'emergency' ? 'rgba(255,0,0,.3)' : 'rgba(255,200,0,.3)'"
-                        [fillColor]="contract.warning === 'police'? 'rgba(0,0,255,.1)' : contract.warning === 'emergency' ? 'rgba(255,0,0,.1)' : 'rgba(255,200,0,.1)'"
-                        [paths]="contract.point | hexagon: 100"
-                ></agm-polygon>
+                <agm-overlay
+                  *ngIf="contract.warning"
+                  [latitude]  = "contract.point.lat"
+                  [longitude] = "contract.point.lng"
+                >
+                  <!-- blue html square -->
+                  <div class="hexagon-bg">
+                    <svg *ngIf="contract.warning === 'police'" xmlns="http://www.w3.org/2000/svg" width="108" height="126" fill="none">
+                      <path d="M54 3l52 30v60l-52 30L2 93V33L54 3z" fill="#259AE4" fill-opacity=".12" stroke="#259AE4" stroke-width="4"/>
+                      <path d="M51.72 52.147L40.427 71a2.667 2.667 0 002.28 4h22.586a2.666 2.666 0 002.28-4L56.28 52.147a2.667 2.667 0 00-4.56 0v0zM54 59v5.333M54 69.667h.013" stroke="#259AE4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <svg *ngIf="contract.warning === 'fire'" xmlns="http://www.w3.org/2000/svg" width="108" height="126" fill="none">
+                      <path d="M54 3l52 30v60l-52 30L2 93V33L54 3z" fill="#F2A616" fill-opacity=".12" stroke="#F2A616" stroke-width="4"/>
+                      <path d="M61.55 61.997a8.144 8.144 0 00-1.944-2.7l-.682-.626a.189.189 0 00-.304.078l-.305.874c-.19.548-.54 1.108-1.034 1.66a.146.146 0 01-.096.046.13.13 0 01-.1-.035.138.138 0 01-.047-.113c.086-1.41-.336-3.002-1.26-4.734-.763-1.44-1.825-2.562-3.151-3.345l-.968-.57a.188.188 0 00-.282.172l.052 1.125c.035.769-.054 1.448-.265 2.013a6.687 6.687 0 01-1.102 1.91c-.329.401-.702.764-1.113 1.08a8.265 8.265 0 00-2.35 2.849 8.15 8.15 0 00-.2 6.803 8.235 8.235 0 004.392 4.35 8.246 8.246 0 003.209.643 8.286 8.286 0 003.209-.64 8.17 8.17 0 002.622-1.751 8.114 8.114 0 002.419-5.787 8.067 8.067 0 00-.7-3.302z" fill="#F2A616"/>
+                    </svg>
+                    <svg *ngIf="contract.warning === 'emergency'"  xmlns="http://www.w3.org/2000/svg" width="108" height="126" fill="none">
+                      <path d="M54 3l52 30v60l-52 30L2 93V33L54 3z" fill="#E33B3C" fill-opacity=".12" stroke="#E33B3C" stroke-width="4"/>
+                      <g clip-path="url(#emergencyclip0)" fill="#E33B3C">
+                        <path d="M51 51h6v24h-6z"/>
+                        <path d="M66 60v6H42v-6z"/>
+                      </g>
+                      <defs>
+                        <clipPath id="emergencyclip0">
+                          <path fill="#fff" transform="translate(42 51)" d="M0 0h24v24H0z"/>
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </div>
+                </agm-overlay>
             </agm-polygon>
         </ng-container>
     </agm-map>
 
     <div class="application__info">
+      <div>
+        Map coords: {{ map.lat}} , {{ map.lng }}
+      </div>
       <div class="application__info-speed">
         Speed: {{ speed$ | async | number:'1.1-1' }} km/h
       </div>
@@ -44,17 +71,78 @@
       </div>
     </div>
 
-    <div class="application__actions">
-      <button class="application__actions-btn" (click)="createEmergencySituation('protocol-emergency')" mat-button mat-raised-button color="warn">Emergency situation</button>
-      <button class="application__actions-btn" (click)="createEmergencySituation('protocol-fire')" mat-button mat-raised-button color="warn">Fire</button>
-      <button class="application__actions-btn" (click)="createEmergencySituation('protocol-police')" mat-button mat-raised-button color="warn">Robbery</button>
+    <div class="application__actions" *ngIf="contacts$ | async as contacts">
+      <button class="application__actions-btn large"
+        (click)="createEmergencySituation('protocol-emergency')"
+        mat-button mat-flat-button
+        color="warn"
+        *ngIf="(contacts[0])?.warning === 'emergency'"
+      >Emergency situation</button>
+      <button
+        class="application__actions-btn large"
+        (click)="createEmergencySituation('protocol-fire')"
+        mat-button mat-flat-button
+        color="warn"
+        *ngIf="(contacts[0])?.warning === 'fire'"
+      >Fire</button>
+      <button
+        class="application__actions-btn large"
+        (click)="createEmergencySituation('protocol-police')"
+        mat-button mat-flat-button
+        color="warn"
+        *ngIf="(contacts[0])?.warning === 'police'"
+      >Robbery</button>
+      <button
+        class="application__actions-btn large"
+        mat-button mat-flat-button
+        color="primary"
+        *ngIf="(contacts[0])?.emergency?.length > 0"
+      >
+        <svg class="application__actions-btn-icon" *ngIf="(contacts[0])?.emergency === 'emergency'"
+             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <g clip-path="url(#clip1110)">
+            <rect x="9" width="6" height="24" fill="#FFFFFF"/>
+            <rect x="24" y="9" width="6" height="24" transform="rotate(90 24 9)" fill="#FFFFFF"/>
+          </g>
+          <defs>
+            <clipPath id="clip1110">
+              <rect width="24" height="24" fill="white"/>
+            </clipPath>
+          </defs>
+        </svg>
+        <svg class="application__actions-btn-icon" *ngIf="(contacts[0])?.emergency === 'police'" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path d="M13.72 5.1467L2.42663 24C2.19379 24.4033 2.07059 24.8604 2.06929 25.3261C2.06798 25.7917 2.18862 26.2495 2.4192 26.6541C2.64978 27.0586 2.98227 27.3957 3.38358 27.6318C3.78489 27.868 4.24103 27.9949 4.70663 28H27.2933C27.7589 27.9949 28.215 27.868 28.6164 27.6318C29.0177 27.3957 29.3501 27.0586 29.5807 26.6541C29.8113 26.2495 29.932 25.7917 29.9306 25.3261C29.9293 24.8604 29.8061 24.4033 29.5733 24L18.28 5.1467C18.0423 4.75484 17.7076 4.43085 17.3082 4.20601C16.9089 3.98116 16.4583 3.86304 16 3.86304C15.5417 3.86304 15.0911 3.98116 14.6917 4.20601C14.2923 4.43085 13.9577 4.75484 13.72 5.1467V5.1467Z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 12V17.3333" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 22.6666H16.0133" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <svg class="application__actions-btn-icon" *ngIf="(contacts[0])?.emergency === 'fire'" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M19.5492 10.9969C19.0942 9.97281 18.4328 9.05364 17.6063 8.2969L16.9242 7.67111C16.9011 7.65045 16.8732 7.63578 16.843 7.62841C16.8129 7.62103 16.7814 7.62116 16.7513 7.6288C16.7212 7.63644 16.6935 7.65134 16.6705 7.6722C16.6475 7.69307 16.63 7.71925 16.6195 7.74846L16.3148 8.62268C16.125 9.17111 15.7758 9.73127 15.2812 10.2821C15.2484 10.3172 15.2109 10.3266 15.1852 10.3289C15.1594 10.3313 15.1195 10.3266 15.0844 10.2938C15.0516 10.2656 15.0352 10.2235 15.0375 10.1813C15.1242 8.77033 14.7023 7.17893 13.7789 5.4469C13.0148 4.00783 11.9531 2.88518 10.6266 2.10236L9.65859 1.53283C9.53203 1.45783 9.37031 1.55627 9.37734 1.70393L9.42891 2.82893C9.46406 3.59768 9.375 4.27736 9.16406 4.84221C8.90625 5.53361 8.53594 6.1758 8.0625 6.75236C7.73302 7.15306 7.35959 7.51549 6.94922 7.83283C5.96087 8.5926 5.15722 9.56612 4.59844 10.6805C4.04103 11.8046 3.75068 13.0422 3.75 14.2969C3.75 15.4031 3.96797 16.4742 4.39922 17.4844C4.81562 18.457 5.41654 19.3396 6.16875 20.0836C6.92813 20.8336 7.80938 21.4242 8.79141 21.8344C9.80859 22.261 10.8867 22.4766 12 22.4766C13.1133 22.4766 14.1914 22.261 15.2086 21.8367C16.1882 21.429 17.079 20.8343 17.8312 20.086C18.5906 19.336 19.1859 18.4594 19.6008 17.4867C20.0314 16.4793 20.2523 15.3948 20.25 14.2992C20.25 13.1555 20.0156 12.0446 19.5492 10.9969Z" fill="#FFFFFF"/>
+        </svg>
+        <span>
+          Participate in helping
+        </span>
+      </button>
     </div>
 
     <div class="application__control" id="joystick-main">
       <div #joystickNode class="joystick-base"></div>
     </div>
 
-    <div class="application__certificates">
-        <a class="application__actions-btn" [routerLink]="constants.routes.listing | route" mat-button mat-raised-button color="warn">Get a certificate</a>
+    <div class="application__top-controls">
+
+      <div class="application__top-buttons">
+        <a class="application__certificates-btn"
+           [routerLink]="constants.routes.listing | route"
+           mat-button mat-flat-button
+           color="flat-gray">
+          <svg class="mat-button-icon mat-button-icon--left" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M23.006 6.102a6.755 6.755 0 00-1.711-1.711 6.33 6.33 0 00-2.49-.934 5.99 5.99 0 00-5.107 1.711l-8.53 8.53a1.22 1.22 0 000 1.711 1.22 1.22 0 001.712 0l8.504-8.555a3.612 3.612 0 014.122-.7c.363.155.7.389 1.01.7.286.31.52.648.7 1.01a3.612 3.612 0 01-.7 4.123l-3.421 3.422a6.041 6.041 0 005.133-1.71A5.965 5.965 0 0023.94 8.59a6.183 6.183 0 00-.933-2.49zm-4.174 4.2a1.22 1.22 0 000-1.711c-.493-.467-1.245-.467-1.712 0l-8.53 8.53a3.612 3.612 0 01-4.122.7 3.229 3.229 0 01-1.01-.7 4.414 4.414 0 01-.7-1.011 3.619 3.619 0 01.7-4.123l3.421-3.396a5.99 5.99 0 00-5.107 1.71A6.041 6.041 0 00.06 15.436c.13.856.44 1.711.933 2.463.233.337.493.649.778.934.285.31.596.57.933.778a6.073 6.073 0 002.463.933 5.965 5.965 0 005.108-1.711l8.556-8.53z" fill="#fff"/>
+          </svg>
+          <span>
+            Get a certificate
+          </span>
+        </a>
+      </div>
+
     </div>
 </div>

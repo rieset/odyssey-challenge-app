@@ -90,8 +90,18 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
     combineLatest([this.gMap$, this.map$])
     .pipe(takeUntil(this.destroyed$))
     .subscribe(([gMap, position]) => {
-      gMap.setCenter(position)
+      gMap.setCenter(position);
     })
+
+    // combineLatest([this.gMap$, this.map$, this.contacts$])
+    //   .pipe(takeUntil(this.destroyed$))
+    //   .subscribe(([gMap, position, contacts]) => {
+    //     contacts.some( (contact)=> {
+    //       gMap.containsLocation(this.hexagonPipe.transform(contact.point), position)
+    //
+    //     })
+    //
+    //   })
   }
 
   ngAfterViewInit (){
@@ -123,6 +133,7 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
     .subscribe(([position, contracts]) => {
       if (contracts && contracts[0]) {
         this.geoService.activationProtocol(contracts[0], position, protocol)
+        console.log('contracts', contracts);
       } else {
 
       }
