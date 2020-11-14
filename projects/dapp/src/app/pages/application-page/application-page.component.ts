@@ -2,9 +2,9 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, Inject,
+  Component, ElementRef, Inject,
   OnDestroy,
-  OnInit, PLATFORM_ID,
+  OnInit, PLATFORM_ID, ViewChild,
 } from '@angular/core'
 import { ApplicationService } from '@services/application/application.service'
 import {
@@ -40,7 +40,7 @@ export interface MapCoords extends ApplicationPositionModel {
   selector: 'app-application-page',
   templateUrl: './application-page.component.html',
   styleUrls: ['./application-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -48,6 +48,8 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
   private destroyed$!: Subject<null>
 
   private gMap$: Subject<GoogleMapsAPIWrapper> = new Subject()
+
+  @ViewChild('joystickNode') joystickNode: ElementRef | undefined;
 
   public contacts$ = this.applicationService.contracts$.pipe(tap((data) => {}), publishReplay(1), refCount())
 
@@ -71,15 +73,15 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
   public readonly movement$ = this.applicationService.movement$.pipe(takeUntil(this.destroyed$))
   public readonly direction$ = this.applicationService.direction$.pipe(takeUntil(this.destroyed$))
   isBrowser: boolean;
-
+  joystick: Joystick|null;
   constructor (
-      private joystick: Joystick,
       private applicationService: ApplicationService,
       private geoService: GeoService,
       private cdr: ChangeDetectorRef,
       @Inject(PLATFORM_ID) platformId: object,
       @Inject(APP_CONSTANTS) public constants: AppConstantsInterface,
   ) {
+    this.joystick = null;
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
@@ -93,8 +95,8 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   ngAfterViewInit (){
-    if (this.isBrowser) {
-      this.joystick = new Joystick (document.getElementById('joystick-base') as HTMLElement, this.applicationService);
+    if (this.isBrowser && this.joystickNode) {
+      this.joystick = new Joystick (this.joystickNode.nativeElement as HTMLElement, this.applicationService);
     }
   }
 
@@ -107,7 +109,9 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   ngOnDestroy () {
-    this.joystick.destroy();
+    if(this.joystick){
+      this.joystick.destroy();
+    }
   }
 
   createEmergencySituation (protocol: string) {

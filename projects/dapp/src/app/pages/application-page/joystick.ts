@@ -4,7 +4,6 @@ import {Subject} from 'rxjs';
 
 
 type Coords = { x: number , y: number }
-
 class Joystick {
   private destroyed$ = new Subject();
   dragStart: Coords | null;
@@ -26,10 +25,10 @@ class Joystick {
     this.stickInner.classList.add('joystick-stick-inner');
     this.stickDirection = document.createElement('span');
     this.stickDirection.classList.add('joystick-stick-direction');
-    this.stick.appendChild( this.stickDirection );
-    this.stick.appendChild( this.stickInner );
     this.stick.classList.add('joystick-stick');
     parent.appendChild( this.stick );
+    this.stick.appendChild( this.stickDirection );
+    this.stick.appendChild( this.stickInner );
 
     this.stick.addEventListener( 'mousedown', this.handleMouseDown.bind( this ) );
     document.addEventListener('mousemove', this.handleMouseMove.bind( this ) );
