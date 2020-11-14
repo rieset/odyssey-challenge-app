@@ -13,7 +13,7 @@ export class UserService {
     address: this.window.localStorage.getItem('address') || generateAddress()
   })
 
-  constructor(
+  constructor (
       @Inject(WINDOW) public window: Window,
   ) {
     if (!this.window.localStorage.getItem('address')) {
@@ -21,7 +21,7 @@ export class UserService {
     }
   }
 
-  sendScore() {
+  sendScore () {
 
   }
 

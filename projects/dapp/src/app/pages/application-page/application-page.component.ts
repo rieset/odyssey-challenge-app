@@ -120,7 +120,7 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
     })
   }
 
-  createTransaction() {
+  createTransaction () {
     this.transactionService.create();
   }
 

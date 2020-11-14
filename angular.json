@@ -181,7 +181,9 @@
               ]
             },
             "allowedCommonJsDependencies": [
-              "@waves/signer"
+              "@waves/signer",
+              "@waves/ts-lib-crypto",
+              "@libs/waves-transactions"
             ]
           },
           "configurations": {

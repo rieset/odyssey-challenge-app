@@ -139,8 +139,10 @@ export class ApplicationService {
   //   combineLatest([this.speed$, this.state$, this.direction$, this.position$])
   //   .pipe(take(1))
   //   .subscribe(([speed, state, direction, position]) => {
-  //     const lat = direction.y === 0 ? position.lat : position.lat + this.meterToLat(speed * (this.updateInterval / 1000) * direction.y)
-  //     const lng = direction.x === 0 ? position.lng : position.lng + this.meterToLng(speed * (this.updateInterval / 1000) * direction.x, lat)
+  //     const lat = direction.y === 0 ? position.lat : position.lat +
+  //     this.meterToLat(speed * (this.updateInterval / 1000) * direction.y)
+  //     const lng = direction.x === 0 ? position.lng : position.lng +
+  //     this.meterToLng(speed * (this.updateInterval / 1000) * direction.x, lat)
   //
   //     this.position$.next({
   //       lng,

@@ -1,14 +1,7 @@
 import { Injectable } from '@angular/core';
+import {broadcast, IInvokeScriptParams, invokeScript, transfer } from '@libs/waves-transactions/dist';
 import { randomSeed, address } from '@waves/ts-lib-crypto';
-import {
-  alias, broadcast, burn, cancelLease, data, exchange,
-  invokeScript, issue, lease, massTransfer, reissue,
-  setAssetScript, setScript, sponsorship, transfer, updateAssetInfo,
-} from '@waves/waves-transactions';
-import {
-  IInvokeScriptParams,
-  TTypedData,
-} from '@waves/waves-transactions/src/transactions';
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,16 +9,15 @@ import {
 export class TransactionService {
   private faucet = 'junior describe disorder harsh broom detect index tonight tray method miracle whisper master since impose';
 
-  constructor() {}
+  constructor () {}
 
-  public async create() {
+  public async create () {
     const userSeed = randomSeed();
     const userAddress = address(userSeed, 'T');
 
     const signedTranferViaPrivateKey = transfer({
       recipient: userAddress,
       amount: 2000000,
-      chainId: 'T',
       feeAssetId: null
     }, this.faucet)
 

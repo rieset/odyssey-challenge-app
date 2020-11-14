@@ -1,5 +1,11 @@
 {
   "extends": "tslint:recommended",
+  "linterOptions": {
+    "exclude": [
+      "bin",
+      "projects/libs/src/lib/waves-transactions/**/*"
+    ]
+  },
   "rules": {
     "align": {
       "options": [
