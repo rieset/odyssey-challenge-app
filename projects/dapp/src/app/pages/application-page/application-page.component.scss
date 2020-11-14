@@ -42,7 +42,9 @@
       pointer-events: all;
 
       &-icon {
+        height: 32px;
         margin-right: em(5);
+        width: auto;
       }
     }
   }
@@ -122,7 +124,36 @@
 }
 
 ::ng-deep .hexagon-bg {
-  svg {
-    transform: translate(-50%, -50%);
+  position: relative;
+
+  &:not(.hexagon-bg--multiple) {
+    svg {
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
+
+  &--multiple {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    svg {
+      display: block;
+      height: auto;
+      margin-left: em(10);
+      width: rem(80);
+
+      &:last-child {
+        margin-left: 0;
+      }
+    }
+  }
+
 }

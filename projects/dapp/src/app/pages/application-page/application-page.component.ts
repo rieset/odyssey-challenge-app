@@ -124,7 +124,7 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
     }
   }
 
-  createEmergencySituation (protocol: string) {
+  helping (protocol: string) {
     combineLatest([
       this.applicationService.position,
       this.contacts$
@@ -140,11 +140,19 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
     })
   }
 
-  setDerection (direction: ApplicationDirectionInputModel) {
-    const d = this.applicationService.direction$.getValue()
-    this.applicationService.direction$.next({
-      x: (((d.x + (direction.x || 0)) % 2)),
-      y: (((d.y + (direction.y || 0)) % 2))
-    })
+  warning (protocol: string){
+    combineLatest([
+      this.applicationService.position,
+      this.contacts$
+    ])
+      .pipe(take(1))
+      .subscribe(([position, contracts]) => {
+        if (contracts && contracts[0]) {
+          this.geoService.warningProtocol(contracts[0], position, protocol)
+        } else {
+
+        }
+      })
   }
+
 }

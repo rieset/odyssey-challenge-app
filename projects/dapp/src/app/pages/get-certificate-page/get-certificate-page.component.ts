@@ -1,7 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {debounceTime, takeUntil} from 'rxjs/operators';
+import {APP_CONSTANTS, AppConstantsInterface} from '@constants';
+import {CERTS, CERTS_PROVIDERS} from '@ui/listing/listing.providers';
+import {LoadingWrapperModel} from '@libs/loading-wrapper/loading-wrapper';
+import {ContractCertificateModel} from '@services/contract/contract.model';
 
 
 interface ChooseFormStatus {
@@ -17,11 +21,12 @@ interface ChooseFormStatus {
 @Component({
   selector: 'app-get-certificate-page',
   templateUrl: './get-certificate-page.component.html',
-  styleUrls: ['./get-certificate-page.component.scss']
+  styleUrls: ['./get-certificate-page.component.scss'],
+  providers: CERTS_PROVIDERS
 })
 export class GetCertificatePageComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
-  selectedCategory!: string;
+  selectedCategory = '🔥 Firefighting';
   public chooseForm: FormGroup;
   chooseFormStatus: ChooseFormStatus;
   public chooseFormIsLoading = false;
@@ -34,6 +39,8 @@ export class GetCertificatePageComponent implements OnInit, OnDestroy {
     '🥊 Fighting',
   ];
   constructor (
+    @Inject(APP_CONSTANTS) public readonly constants: AppConstantsInterface,
+    @Inject(CERTS) public readonly certs: LoadingWrapperModel<ContractCertificateModel[]>,
     private readonly fb: FormBuilder,
   ) {
     this.chooseForm = fb.group({
@@ -114,6 +121,10 @@ export class GetCertificatePageComponent implements OnInit, OnDestroy {
     }
     this.chooseForm.disable();
     this.chooseFormIsLoading = true;
+  }
+
+  trackByFn (index: number) {
+    return index
   }
 
   ngOnInit (): void {

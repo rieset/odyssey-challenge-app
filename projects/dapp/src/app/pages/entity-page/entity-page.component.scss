@@ -1,0 +1,23 @@
+@import 'mixins';
+
+.entity-page {
+  padding-top: rem(20);
+
+  &__get-certificate {
+    margin-top: rem(15);
+  }
+}
+
+.back-button {
+  align-items: center;
+  display: inline-flex;
+
+  &__ico {
+    margin-right: em(5);
+    stroke: #05f;
+  }
+
+  &__text {
+    color: #05f;
+  }
+}

@@ -20,7 +20,7 @@ export class GeoService {
   private apiGetGeoContracts = new URL('/geo/contracts', this.api.geo)
   private apiRegisterOnContract = new URL('/geo/register', this.api.geo)
   private apiEmergencyOnContract = new URL('/geo/emergency', this.api.geo)
-  private apiWarningOnContract = new URL('/geo/warnings', this.api.geo)
+  private apiWarningOnContract = new URL('/geo/warning', this.api.geo)
 
   private geoContracts$: Observable<GeoContractModel[]> = this.http.get<GeoContractModel[]>(this.apiGetGeoContracts.href, {
     headers: {
