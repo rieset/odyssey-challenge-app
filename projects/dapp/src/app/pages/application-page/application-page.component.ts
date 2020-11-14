@@ -109,7 +109,7 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   ngOnDestroy () {
-    if(this.joystick){
+    if (this.joystick){
       this.joystick.destroy();
     }
   }
