@@ -38,7 +38,10 @@ class Joystick {
     document.addEventListener('touchend', this.handleMouseUp.bind( this ) );
 
     this.direction$.subscribe((val: Coords) => {
-      this.stickDirection.style.transform = `rotate(${this.getAngle(val)}deg)`;
+      this.stickDirection.style.transform = `rotate(${this.getAngle(val)}deg) scale(1)`;
+      if( val.x === 0 && val.y === 0){
+        this.stickDirection.style.transform = `scale(0)`;
+      }
     })
 
   }
@@ -134,12 +137,12 @@ class Joystick {
   destroy (){
     this.destroyed$.next();
 
-    this.stick.removeEventListener( 'mousedown', this.handleMouseDown.bind( this ) );
-    document.removeEventListener('mousemove', this.handleMouseMove.bind( this ) );
-    document.removeEventListener('mouseup', this.handleMouseUp.bind( this ) );
-    this.stick.removeEventListener('touchstart', this.handleMouseDown.bind( this) );
-    document.removeEventListener('touchmove', this.handleMouseMove.bind( this ) );
-    document.removeEventListener('touchend', this.handleMouseUp.bind( this ) );
+    this.stick.removeEventListener( 'mousedown', this.handleMouseDown );
+    document.removeEventListener('mousemove', this.handleMouseMove );
+    document.removeEventListener('mouseup', this.handleMouseUp );
+    this.stick.removeEventListener('touchstart', this.handleMouseDown );
+    document.removeEventListener('touchmove', this.handleMouseMove );
+    document.removeEventListener('touchend', this.handleMouseUp );
   }
 }
 

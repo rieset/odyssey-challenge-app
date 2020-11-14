@@ -13,6 +13,7 @@
         <agm-marker
           [latitude]="map.lat"
           [longitude]="map.lng"
+          [iconUrl]="markerIcon"
         ></agm-marker>
 
         <ng-container *ngIf="contacts$ | async as contacts">
@@ -169,6 +170,10 @@
           </span>
         </a>
       </div>
+
+    </div>
+
+    <div class="application__greed-popup">
 
     </div>
 </div>

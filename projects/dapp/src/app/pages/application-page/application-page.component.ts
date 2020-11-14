@@ -74,6 +74,7 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
   public readonly direction$ = this.applicationService.direction$.pipe(takeUntil(this.destroyed$))
   isBrowser: boolean;
   joystick: Joystick|null;
+  markerIcon: any;
   constructor (
       private applicationService: ApplicationService,
       private geoService: GeoService,
@@ -83,6 +84,11 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
   ) {
     this.joystick = null;
     this.isBrowser = isPlatformBrowser(platformId);
+    this.markerIcon = {
+      url: '../../assets/images/google-map-marker.png',
+      anchor : {x:56/2, y:56/2},
+      scaledSize: {height: 56, width: 56}
+    };
   }
 
 
@@ -133,7 +139,8 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
     .subscribe(([position, contracts]) => {
       if (contracts && contracts[0]) {
         this.geoService.activationProtocol(contracts[0], position, protocol)
-        console.log('contracts', contracts);
+        // console.log('contracts', contracts);
+
       } else {
 
       }
