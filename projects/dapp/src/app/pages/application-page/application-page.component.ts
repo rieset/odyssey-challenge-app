@@ -1,10 +1,10 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, Inject,
   OnDestroy,
   OnInit,
-} from '@angular/core'
+} from '@angular/core';
 import { ApplicationService } from '@services/application/application.service'
 import {
   map,
@@ -25,6 +25,8 @@ import {AgmMap, GoogleMapsAPIWrapper } from '@agm/core'
 import {DestroyedSubject} from '@libs/decorators/destroyed-subject.decorator'
 import {GeoService} from '@services/geo/geo.service'
 import { styles } from './application-page.map'
+import { TransactionService } from '@services/transaction/transaction.service'
+import {APP_CONSTANTS, AppConstantsInterface} from '@constants';
 
 
 export interface MapCoords extends ApplicationPositionModel {
@@ -70,7 +72,9 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
   constructor (
       private applicationService: ApplicationService,
       private geoService: GeoService,
-      private cdr: ChangeDetectorRef
+      private cdr: ChangeDetectorRef,
+      private transactionService: TransactionService,
+      @Inject(APP_CONSTANTS) public readonly constants: AppConstantsInterface,
   ) {
 
   }
@@ -115,4 +119,9 @@ export class ApplicationPageComponent implements OnInit, OnDestroy {
       y: (((d.y + (direction.y || 0)) % 2))
     })
   }
+
+  createTransaction() {
+    this.transactionService.create();
+  }
+
 }
