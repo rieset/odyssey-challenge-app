@@ -13,7 +13,11 @@
         <agm-marker
           [latitude]="map.lat"
           [longitude]="map.lng"
-          [iconUrl]="markerIcon"
+          [iconUrl]="{
+            url: '../../assets/images/google-map-marker.png',
+            anchor : {x: 56 / 2, y: 56 / 2},
+            scaledSize: {height: 56, width: 56}
+          }"
         ></agm-marker>
 
         <ng-container *ngIf="contacts$ | async as contacts">
