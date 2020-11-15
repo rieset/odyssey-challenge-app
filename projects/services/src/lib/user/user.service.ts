@@ -31,6 +31,7 @@ export class UserService {
 
           return certificate?.applicants?.value && certificate?.applicants?.value.indexOf(';' + addr) >= 0;
         }).map((key) => contract.template[key]?.title?.value).map((certName) => {
+          console.log(certName);
           if (certName === 'Certificate of Firefighter') {
             return 'fire'
           }

@@ -69,6 +69,8 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
     }
   }))
 
+  public certificate = '';
+
   public readonly speed$ = this.applicationService.speed$.pipe(takeUntil(this.destroyed$), map((speed) => {
     return  (speed * 60 * 60 ) / 1000
   }))
@@ -95,6 +97,15 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
     .pipe(takeUntil(this.destroyed$))
     .subscribe(([gMap, position]) => {
       gMap.setCenter(position);
+    })
+
+    this.userService.user
+    .pipe(takeUntil(this.destroyed$))
+        .subscribe((user) => {
+        user.certificates.forEach((certificate) => {
+          this.certificate = certificate;
+          this.cdr.markForCheck();
+        })
     })
 
     // this.contacts$.subscribe((val) => {
