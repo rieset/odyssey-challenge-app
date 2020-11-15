@@ -60,6 +60,7 @@ export class GeoService {
 
   public get geoContracts (): Observable<GeoContractModel[]> {
     return this.geoContracts$.pipe(
+      // @ts-ignore
         publishReplay(1),
         refCount()
     )

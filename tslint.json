@@ -69,7 +69,7 @@
       "timeEnd",
       "trace"
     ],
-    "no-any": false,
+    "no-any": true,
     "no-empty": false,
     "no-inferrable-types": [
       true,

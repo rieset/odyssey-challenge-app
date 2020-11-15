@@ -1,0 +1,14 @@
+.back-button {
+  align-items: center;
+  display: inline-flex;
+  text-decoration: none;
+
+  &__ico {
+    margin-right: em(5);
+    stroke: #05f;
+  }
+
+  &__text {
+    color: #05f;
+  }
+}

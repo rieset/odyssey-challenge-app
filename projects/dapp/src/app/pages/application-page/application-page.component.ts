@@ -75,8 +75,6 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
   public readonly direction$ = this.applicationService.direction$.pipe(takeUntil(this.destroyed$))
   isBrowser: boolean;
   joystick: Joystick|null;
-  // @ts-ignore
-  markerIcon: any;
   constructor (
       private applicationService: ApplicationService,
       private geoService: GeoService,
@@ -87,11 +85,6 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
   ) {
     this.joystick = null;
     this.isBrowser = isPlatformBrowser(platformId);
-    this.markerIcon = {
-      url: '../../assets/images/google-map-marker.png',
-      anchor : {x: 56 / 2, y: 56 / 2},
-      scaledSize: {height: 56, width: 56}
-    };
   }
 
 
@@ -102,13 +95,17 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
       gMap.setCenter(position);
     })
 
+    // this.contacts$.subscribe((val) => {
+    //   console.log('cc', val);
+    // });
     // combineLatest([this.gMap$, this.map$, this.contacts$])
     //   .pipe(takeUntil(this.destroyed$))
     //   .subscribe(([gMap, position, contacts]) => {
-    //     contacts.some( (contact)=> {
-    //       gMap.containsLocation(this.hexagonPipe.transform(contact.point), position)
-    //
-    //     })
+    //     // contacts.some( (contact)=> {
+    //     //   gMap.containsLocation(this.hexagonPipe.transform(contact.point), position)
+    //     //
+    //     // })
+    //     console.log('c', contacts);
     //
     //   })
   }
