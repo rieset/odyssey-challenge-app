@@ -65,13 +65,25 @@
 
   &__top-controls {
     display: flex;
+    flex-direction: column;
     left: 10px;
     position: absolute;
     right: 10px;
     top: 10px;
   }
 
+  &__score {
+    color: #fff;
+    font-size: 25px;
+    margin-right: 20px;
+    text-align: right;
+    top: 10px;
+  }
+
   &__top-buttons {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
     margin-left: auto;
   }
 }
