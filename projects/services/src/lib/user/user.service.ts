@@ -22,8 +22,6 @@ export class UserService {
         const certificates = Object.keys(contract.template).filter((cert) => {
           const certificate = contract.template[cert];
 
-          console.log('certificate', certificate);
-
           if (certificate?.status?.value !== 'accepted') {
             return false
           }
