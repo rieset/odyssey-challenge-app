@@ -19,8 +19,7 @@ import {WINDOW} from '@services/window';
 })
 export class FooterComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
   private destroyed$ = new Subject();
-  @ViewChild('footerRef', { static: false })
-  footerRef: ElementRef;
+  @ViewChild('footerRef', { static: false }) footerRef: ElementRef<HTMLElement> | null = null;
   private isBrowser: boolean;
   public lastLogMessage$ = this.logService.stream.pipe(
 
