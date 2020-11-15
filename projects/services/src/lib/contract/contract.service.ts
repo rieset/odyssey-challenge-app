@@ -106,7 +106,10 @@ export class ContractService {
 
   public entityById (entityId: ContractRawDataEntityId): Observable<ContractCertificateModel> {
     return this.stream.pipe(map((data) => {
-      return data?.template[entityId]
+      return {
+        ...data?.template[entityId],
+        id: entityId
+      }
     }))
   }
 
