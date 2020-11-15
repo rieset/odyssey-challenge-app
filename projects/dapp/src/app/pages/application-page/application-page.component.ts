@@ -57,8 +57,6 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
 
   public styles = styles;
 
-  public score: number = 0;
-
   public readonly map$: Observable<MapCoords> = this.applicationService.position.pipe(map((position) => {
     const deltaY = GeoUtils.meterToLat(300)
     const deltaX = GeoUtils.meterToLng(300, position.lat)
@@ -170,11 +168,6 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
         } else {}
       })
   }
-
-  setScore(score: number) {
-    this.score = this.score + score;
-  }
-
 
 
 }

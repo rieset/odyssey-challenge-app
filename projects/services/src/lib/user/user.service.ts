@@ -11,8 +11,11 @@ import { map } from 'rxjs/operators';
 })
 export class UserService {
 
+  public score = 0;
+
   private seed = randomSeed();
 
+  // @ts-ignore
   private user$: Observable<UserModel> = this.contractService.stream.pipe(
       map((contract) => {
         // Demo seed
@@ -62,6 +65,10 @@ export class UserService {
 
   public get user () {
     return this.user$;
+  }
+
+  setScore (score: number) {
+    this.score = this.score + score;
   }
 
 }
