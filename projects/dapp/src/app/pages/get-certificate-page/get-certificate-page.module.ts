@@ -8,7 +8,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {PipesModule} from '@libs/pipes/pipes.module';
-import {TranslocoModule} from "@ngneat/transloco";
+import {TranslocoModule} from '@ngneat/transloco';
 
 
 @NgModule({
