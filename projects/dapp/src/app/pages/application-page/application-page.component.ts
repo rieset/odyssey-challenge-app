@@ -30,6 +30,7 @@ import {isPlatformBrowser} from '@angular/common';
 import Joystick from './joystick'
 import {APP_CONSTANTS, AppConstantsInterface} from '@constants';
 import { UserService } from '@services/user/user.service'
+import { TransactionService } from '@services/transaction/transaction.service'
 
 
 export interface MapCoords extends ApplicationPositionModel {
@@ -56,6 +57,8 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
 
   public styles = styles;
 
+  public score: number = 0;
+
   public readonly map$: Observable<MapCoords> = this.applicationService.position.pipe(map((position) => {
     const deltaY = GeoUtils.meterToLat(300)
     const deltaX = GeoUtils.meterToLng(300, position.lat)
@@ -80,6 +83,7 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
       private geoService: GeoService,
       private cdr: ChangeDetectorRef,
       public userService: UserService,
+      public transactionService: TransactionService,
       @Inject(PLATFORM_ID) platformId: object,
       @Inject(APP_CONSTANTS) public constants: AppConstantsInterface,
   ) {
@@ -141,9 +145,11 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
         this.geoService.activationProtocol(contracts[0], position, protocol)
         // console.log('contracts', contracts);
 
-      } else {
-
-      }
+        this.userService.setScore(3);
+        // this.userService.user.pipe(take(1)).subscribe((user) => {
+        //   this.transactionService.sendScore(user.address, 3);
+        // })
+      } else {}
     })
   }
 
@@ -155,11 +161,18 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
       .pipe(take(1))
       .subscribe(([position, contracts]) => {
         if (contracts && contracts[0]) {
-          this.geoService.warningProtocol(contracts[0], position, protocol)
-        } else {
+          this.geoService.warningProtocol(contracts[0], position, protocol);
 
-        }
+          this.userService.setScore(1);
+          // this.userService.user.pipe(take(1)).subscribe((user) => {
+          //   this.transactionService.sendScore(user.address, 1);
+          // })
+        } else {}
       })
+  }
+
+  setScore(score: number) {
+    this.score = this.score + score;
   }
 
 

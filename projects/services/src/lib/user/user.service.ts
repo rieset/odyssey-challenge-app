@@ -27,7 +27,17 @@ export class UserService {
           }
 
           return certificate?.applicants?.value && certificate?.applicants?.value.indexOf(';' + addr) >= 0;
-        }).map((key) => contract.template[key])
+        }).map((key) => contract.template[key]?.title?.value).map((certName) => {
+          if (certName === 'Certificate of Firefighter') {
+            return 'fire'
+          }
+          if (certName === 'Police assistant') {
+            return 'police'
+          }
+          if (certName === 'Emergency assistant') {
+            return 'emergency'
+          }
+        })
 
         if (!this.window.localStorage.getItem('address')) {
           this.window.localStorage.setItem('address', addr);

@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
 import {
-  alias,
   broadcast,
   IInvokeScriptParams,
   invokeScript,
   transfer,
 } from '@libs/waves-transactions/dist';
 import { UserService } from '@services/user/user.service';
-import { randomSeed, address } from '@waves/ts-lib-crypto';
-import {map, switchMap, take} from 'rxjs/operators';
-import {UserModel} from '@services/user/user.model';
+import { take } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import {LogService} from '@services/log/log.service';
+import { LogService } from '@services/log/log.service';
 
 
 @Injectable({
@@ -28,17 +25,13 @@ export class TransactionService {
 
   public async create (certificateAddress: string) {
     this.userService.user.pipe(take(1)).subscribe((user) => {
-
-      console.log('User Address', user);
-
-      const signedTranfer = transfer({
+      const signedTransfer = transfer({
         recipient: user.address,
         amount: 1000000,
       }, this.faucet)
 
-      broadcast(signedTranfer, 'https://nodes-testnet.wavesnodes.com')
+      broadcast(signedTransfer, 'https://nodes-testnet.wavesnodes.com')
       .catch((err) => {
-        console.log('Faucet error', err);
       })
       .then(() => {
         return new Promise(resolve => {
@@ -48,7 +41,6 @@ export class TransactionService {
         })
       })
       .then(() => {
-        console.log('Result 1');
         const params = {
           call: {
             args: [{ type: 'string', value: certificateAddress },
@@ -67,7 +59,49 @@ export class TransactionService {
           this.logService.apply(`Create transactions with facet: <a target="_blank" href="https://testnet.wavesexplorer.com/address/${user.address}/tx">Explorer</a>`, 'blockchain')
         })
       }).then((data) => {
-        console.log('DATA', data)
+        this.router.navigate(['/'])
+      }).catch((error) => {
+        console.log('Errors', error);
+      })
+    })
+  }
+
+  public sendScore (userAddress: string, score: number) {
+    this.userService.user.pipe(take(1)).subscribe((user) => {
+      const signedTransfer = transfer({
+        recipient: user.address,
+        amount: 1000000,
+      }, this.faucet)
+
+      broadcast(signedTransfer, 'https://nodes-testnet.wavesnodes.com')
+      .catch((err) => {
+      })
+      .then(() => {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve()
+          }, 2000)
+        })
+      })
+      .then(() => {
+        const params = {
+          call: {
+            args: [{ type: 'string', value: userAddress},
+              { type: 'integer', value: score }],
+            function: 'score',
+          },
+          payment: [],
+          dApp: '3Mvbw1Sx9xtM6akJrBPorkPpp4B3sJRFPFX',
+          chainId: 'T',
+          fee: 500000,
+          feeAssetId: null
+        } as IInvokeScriptParams
+
+        const signedInvokeScriptTx = invokeScript(params, user.seed)
+        return broadcast(signedInvokeScriptTx, 'https://nodes-testnet.wavesnodes.com').then((data) => {
+          this.logService.apply(`Create transactions with facet: <a target="_blank" href="https://testnet.wavesexplorer.com/address/${user.address}/tx">Explorer</a>`, 'blockchain')
+        })
+      }).then((data) => {
         this.router.navigate(['/'])
       }).catch((error) => {
         console.log('Errors', error);
