@@ -19,27 +19,15 @@ export class UserService {
         const seed = this.window.localStorage.getItem('seed') || this.seed;
         const addr = this.window.localStorage.getItem('address') || address(seed, 'T')
 
-        console.log('ADDR', addr);
-
         const certificates = Object.keys(contract.template).filter((cert) => {
           const certificate = contract.template[cert];
 
-          console.log('ADDR', cert);
           if (certificate?.status?.value !== 'accepted') {
             return false
           }
 
-          if (certificate.app && Object.keys(certificate.app).find((applicationKey) => {
-            console.log('certificate.app[applicationKey]?.id?.value', certificate.app?.[applicationKey], cert)
-            return certificate?.app?.[applicationKey]?.id?.value === addr;
-          })) {
-            console.log('cert', certificate);
-            return true;
-          } else {
-            return false;
-          }
+          return typeof(certificate.applicants) === 'string' && certificate?.applicants.indexOf(';' + addr) >= 0;
         }).map((key) => contract.template[key])
-
 
         if (!this.window.localStorage.getItem('address')) {
           this.window.localStorage.setItem('address', addr);
