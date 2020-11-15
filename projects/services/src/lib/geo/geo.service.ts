@@ -48,7 +48,7 @@ export class GeoService {
     this.refresh();
   }
 
-  public refresh() {
+  public refresh () {
     this.http.get<GeoContractModel[]>(this.apiGetGeoContracts.href, {
       headers: {
         accept: 'application/json; charset=utf-8'

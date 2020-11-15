@@ -102,7 +102,7 @@ export class ApplicationService {
           return EMPTY
         })
     ).subscribe((data: GeoContractUpdatedModel[]) => {
-      if (!data[0]) return;
+      if (!data[0]) { return; }
 
       const contract = data[0]
       this.logService.apply(`Send <b>public</b> data to segment <b>${contract?.address}</b>: {user-alias: ${this.alias}, certificate: ${JSON.stringify(this.certificates[0])}}`)

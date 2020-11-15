@@ -29,7 +29,7 @@ export class UserService {
             return false
           }
 
-          if(certificate.app && Object.keys(certificate.app).find((applicationKey) => {
+          if (certificate.app && Object.keys(certificate.app).find((applicationKey) => {
             console.log('certificate.app[applicationKey]?.id?.value', certificate.app?.[applicationKey], cert)
             return certificate?.app?.[applicationKey]?.id?.value === addr;
           })) {
