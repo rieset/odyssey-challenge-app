@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core'
-import {Routes, RouterModule, Route} from '@angular/router'
+import { Routes, RouterModule } from '@angular/router'
 import { CommonLayoutComponent } from '@ui/layout/common-layout'
 import { environment } from '../environments/environment'
-import {HeaderTheme} from '@ui/header/header.component';
 
 // IMPORTANT
 // Get path in template:
@@ -10,21 +9,7 @@ import {HeaderTheme} from '@ui/header/header.component';
 // {{ constants.routes.listing | route: 'param1' }} -> /listing/:id -> /listing/param1
 // {{ constants.routes.listing | relativeRoute }}-> 'listing' -> 'listing'
 // {{ constants.routes.listing | relativeRoute: 'param1' }} -> 'listing' -> 'listing/param1'
-export interface LayoutData {
-  header?: HeaderTheme;
-}
-export interface CssVariablesData {
-  [name: string]: string;
-}
-export interface CustomRoute extends Route {
-  data?: {
-    [name: string]: any;
-    cssVariables?: CssVariablesData;
-    layout?: LayoutData;
-  };
-  children?: CustomRoute[];
-}
-const routes: CustomRoute[] = [
+const routes: Routes = [
   {
     path: '',
     component: CommonLayoutComponent,
