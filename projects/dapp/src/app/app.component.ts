@@ -5,6 +5,7 @@ import {debounceTime, takeUntil} from 'rxjs/operators';
 import {WINDOW} from '@services/window';
 import { ContractService } from '@services/contract/contract.service';
 import {PreloaderService} from '@services/preloader/preloader.service';
+import { UserService } from '@services/user/user.service';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
     @Inject(WINDOW) public window: Window,
     private contractService: ContractService,
     private preloaderService: PreloaderService,
+    private userService: UserService
   ) {
     this.preloaderService.load()
     this.isBrowser = isPlatformBrowser(platformId);

@@ -5,9 +5,9 @@ export interface GeoContractModel {
   zoom: number
   address: string
   publicKeyOperators: string
-  warning: string
+  warning: string | null
   point: {lat: number, lng: number}
-  emergency: string
+  emergency: string | null
 }
 
 export interface GeoContractUpdatedModel extends GeoContractModel {

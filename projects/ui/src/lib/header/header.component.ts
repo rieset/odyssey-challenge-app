@@ -8,6 +8,7 @@ import { SignerUser } from '@services/signer/signer.model'
 import { Observable } from 'rxjs'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { translate } from '@ngneat/transloco'
+import {UserService} from '@services/user/user.service';
 
 @Component({
   selector: 'ui-header',

@@ -29,6 +29,7 @@ import { styles } from './application-page.map'
 import {isPlatformBrowser} from '@angular/common';
 import Joystick from './joystick'
 import {APP_CONSTANTS, AppConstantsInterface} from '@constants';
+import { UserService } from '@services/user/user.service'
 
 
 export interface MapCoords extends ApplicationPositionModel {
@@ -80,6 +81,7 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
       private applicationService: ApplicationService,
       private geoService: GeoService,
       private cdr: ChangeDetectorRef,
+      public userService: UserService,
       @Inject(PLATFORM_ID) platformId: object,
       @Inject(APP_CONSTANTS) public constants: AppConstantsInterface,
   ) {
@@ -162,5 +164,7 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
         }
       })
   }
+
+
 
 }

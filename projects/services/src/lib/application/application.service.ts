@@ -66,6 +66,8 @@ export class ApplicationService {
             Math.pow((position.lng - hexagon.point.lng) / this.meterToLng(1, hexagon.point.lat), 2))
         return {
           ...hexagon,
+          emergency: this.geoService.resolvedEmergency[hexagon.address] ? null : hexagon.emergency,
+          warning: this.geoService.resolvedWarning[hexagon.address] ? null : hexagon.warning,
           distance,
           contain: distance <= 400 // Get hexagons on 2*R
         }
@@ -100,8 +102,10 @@ export class ApplicationService {
           return EMPTY
         })
     ).subscribe((data: GeoContractUpdatedModel[]) => {
+      if (!data[0]) return;
+
       const contract = data[0]
-      this.logService.apply(`Send <b>public</b> data to segment <b>${contract.address}</b>: {user-alias: ${this.alias}, certificate: ${JSON.stringify(this.certificates[0])}}`)
+      this.logService.apply(`Send <b>public</b> data to segment <b>${contract?.address}</b>: {user-alias: ${this.alias}, certificate: ${JSON.stringify(this.certificates[0])}}`)
 
       this.geoService.registerToContract(contract.address, {
         color: this.color,

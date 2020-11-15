@@ -27,12 +27,19 @@ export interface ContractCertificateModel {
   author?: ContractRawDataString
   company?: ContractRawDataString
   link?: ContractRawDataString
+  app?: {[s: string]: ContractApplicationDataModel}
 
   // voting?: {
   //   amount?: ContractRawDataNumber
   //   state?: ContractRawDataNumber
   // }
   // voted?: {[s: string]: ContractRawDataNumber}
+}
+
+export interface ContractApplicationDataModel {
+  details: ContractRawDataString
+  id: ContractRawDataString
+  status: ContractRawDataString
 }
 
 export interface ContractDataModel {

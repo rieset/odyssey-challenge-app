@@ -33,7 +33,7 @@ export class TransactionService {
     this.userService.user.pipe(take(1)).subscribe((user) => {
       broadcast(signedTranferViaPrivateKey, 'https://nodes-testnet.wavesnodes.com')
       .then(() => {
-        console.log('user', user);
+        console.log('user send', user, user.address);
 
         setTimeout(() => {
           const params = {
@@ -49,7 +49,6 @@ export class TransactionService {
             feeAssetId: null
           } as IInvokeScriptParams
 
-          console.log('use -->', user);
           const signedInvokeScriptTx = invokeScript(params, userSeed)
           return broadcast(signedInvokeScriptTx, 'https://nodes-testnet.wavesnodes.com')
         }, 1000)

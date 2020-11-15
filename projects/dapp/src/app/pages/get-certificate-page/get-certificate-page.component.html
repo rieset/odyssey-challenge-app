@@ -24,23 +24,23 @@
           {{category}}
         </mat-radio-button>
       </mat-radio-group>
-      <div class="get-certificate-page__separator"><span>or</span></div>
-      <mat-form-field
-        [ngClass]="{'active': this.chooseFormStatus.field.isActive}"
-        class="get-certificate-page__enter-id mat-form-field--type-1-theme"
-        floatLabel="never"
-        color="primary"
-        appearance="outline"
-      >
-        <input
-          formControlName="field"
-          (focus)="this.chooseFormStatus.field.isActive = true"
-          (blur)="chooseFormFieldChangeBlur()"
-          matInput
-          placeholder="Enter your Qfield"
-          value=""
-        />
-      </mat-form-field>
+<!--      <div class="get-certificate-page__separator"><span>or</span></div>-->
+<!--      <mat-form-field-->
+<!--        [ngClass]="{'active': this.chooseFormStatus.field.isActive}"-->
+<!--        class="get-certificate-page__enter-id mat-form-field&#45;&#45;type-1-theme"-->
+<!--        floatLabel="never"-->
+<!--        color="primary"-->
+<!--        appearance="outline"-->
+<!--      >-->
+<!--        <input-->
+<!--          formControlName="field"-->
+<!--          (focus)="this.chooseFormStatus.field.isActive = true"-->
+<!--          (blur)="chooseFormFieldChangeBlur()"-->
+<!--          matInput-->
+<!--          placeholder="Enter your Qfield"-->
+<!--          value=""-->
+<!--        />-->
+<!--      </mat-form-field>-->
     </form>
     <div class="get-certificate-page__steps">
       <span class="get-certificate-page__steps-item"></span>

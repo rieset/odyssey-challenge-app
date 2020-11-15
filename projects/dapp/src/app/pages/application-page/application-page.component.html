@@ -140,8 +140,7 @@
       <div #joystickNode class="joystick-base"></div>
     </div>
 
-    <div class="application__top-controls">
-
+    <div class="application__top-controls" *ngIf="userService.user | async as user">
       <div class="application__top-buttons">
         <a class="application__certificates-btn"
            [routerLink]="constants.routes.getCertificate | route"

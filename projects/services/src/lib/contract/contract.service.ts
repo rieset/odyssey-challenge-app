@@ -37,6 +37,7 @@ export class ContractService {
   }).pipe(
     // @ts-ignore
     repeatWhen(() => this.contractRefresh$),
+      // @ts-ignore
     map((data: ContractRawData) => {
       return this.prepareData(data)
     }),
