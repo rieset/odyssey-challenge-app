@@ -27,8 +27,9 @@
   }
 
   &__actions {
-    bottom: $padding;
+    bottom: 0;
     display: flex;
+    flex-wrap: wrap;
     left: $padding;
     pointer-events: none;
     position: absolute;
@@ -38,31 +39,34 @@
 
     &-btn {
       flex: 1 1 100%;
-      margin: 0 5px;
+      margin: 0 5px 7px;
       pointer-events: all;
 
       &-icon {
-        height: 32px;
-        margin-right: em(5);
+        height: 24px;
+        margin-right: em(4);
         width: auto;
       }
     }
   }
 
   &__control {
-    align-items: center;
-    display: flex;
-    justify-content: center;
+    display: block;
     left: 50%;
     position: absolute;
     top: 50%;
   }
 
   &__top-controls {
+    display: flex;
     left: 10px;
     position: absolute;
     right: 10px;
     top: 10px;
+  }
+
+  &__top-buttons {
+    margin-left: auto;
   }
 }
 
@@ -75,7 +79,7 @@
   cursor: pointer;
   height: rem(200);
   left: -#{rem(100)};
-  position: relative;
+  position: absolute;
   top: -#{rem(100)};
   touch-action: none;
   user-select: none;

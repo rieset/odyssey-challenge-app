@@ -102,13 +102,17 @@ export class ApplicationPageComponent implements OnInit, OnDestroy, AfterViewIni
       gMap.setCenter(position);
     })
 
+    // this.contacts$.subscribe((val) => {
+    //   console.log('cc', val);
+    // });
     // combineLatest([this.gMap$, this.map$, this.contacts$])
     //   .pipe(takeUntil(this.destroyed$))
     //   .subscribe(([gMap, position, contacts]) => {
-    //     contacts.some( (contact)=> {
-    //       gMap.containsLocation(this.hexagonPipe.transform(contact.point), position)
-    //
-    //     })
+    //     // contacts.some( (contact)=> {
+    //     //   gMap.containsLocation(this.hexagonPipe.transform(contact.point), position)
+    //     //
+    //     // })
+    //     console.log('c', contacts);
     //
     //   })
   }
