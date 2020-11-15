@@ -1,9 +1,9 @@
-import {Inject, Injectable } from '@angular/core';
-import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
-import {UserModel} from '@services/user/user.model';
-import {WINDOW} from '@services/window';
+import { Inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { UserModel } from '@services/user/user.model';
+import { WINDOW } from '@services/window';
 import { randomSeed, address } from '@waves/ts-lib-crypto';
-import {ContractService} from '@services/contract/contract.service';
+import { ContractService } from '@services/contract/contract.service';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -26,7 +26,7 @@ export class UserService {
             return false
           }
 
-          return typeof(certificate.applicants) === 'string' && certificate?.applicants.indexOf(';' + addr) >= 0;
+          return certificate?.applicants?.value && certificate?.applicants?.value.indexOf(';' + addr) >= 0;
         }).map((key) => contract.template[key])
 
         if (!this.window.localStorage.getItem('address')) {

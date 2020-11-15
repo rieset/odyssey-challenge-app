@@ -28,7 +28,7 @@ export interface ContractCertificateModel {
   company?: ContractRawDataString
   link?: ContractRawDataString
   app?: {[s: string]: ContractApplicationDataModel}
-  applicants?: string
+  applicants?: ContractRawDataString
 
   // voting?: {
   //   amount?: ContractRawDataNumber

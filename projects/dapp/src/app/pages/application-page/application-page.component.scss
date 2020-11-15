@@ -11,6 +11,13 @@
   position: relative;
   width: 100%;
 
+  &__certificates-item {
+    background: linear-gradient(to top, #e65c00, #deb731);
+    border-radius: 5px;
+    margin: 0 5px 7px;
+    padding: 5px;
+  }
+
   &__map {
     height: 100%;
   }
@@ -35,7 +42,6 @@
     position: absolute;
     right: $padding;
     text-align: center;
-
 
     &-btn {
       flex: 1 1 100%;
