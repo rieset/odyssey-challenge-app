@@ -10,6 +10,8 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { translate } from '@ngneat/transloco'
 import {UserService} from '@services/user/user.service';
 
+export type HeaderTheme = '';
+
 @Component({
   selector: 'ui-header',
   templateUrl: './header.component.html',

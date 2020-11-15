@@ -7,7 +7,7 @@
 
 .application {
   height: 100vh;
-  height: calc(var(--vh, 1vh) * 100);
+  height: calc(var(--vh, 1vh) * 100 - var(--footer-height));
   position: relative;
   width: 100%;
 

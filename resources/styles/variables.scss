@@ -27,6 +27,8 @@ $breakpoints: (
   --grid-col: 1fr;
 
   --layout-font-size: $font-size-base;
+
+  --footer-height: 0;
 }
 
 @include media('<=tablet') {
